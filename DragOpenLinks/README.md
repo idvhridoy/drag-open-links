@@ -1,10 +1,38 @@
-# Drag Open Links
+<p align="center">
+  <img src="icons/icon128.png" alt="Drag Open Links Logo" width="128" height="128">
+</p>
 
-A professional Chrome extension that lets you open multiple links by drawing a selection rectangle with your mouse.
+<h1 align="center">Drag Open Links</h1>
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![Chrome](https://img.shields.io/badge/chrome-MV3-green.svg)
-![License](https://img.shields.io/badge/license-MIT-orange.svg)
+<p align="center">
+  <strong>Open multiple links at once by drawing a selection rectangle with your mouse</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/idvhridoy/drag-open-links/releases"><img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/chrome-MV3-green.svg" alt="Chrome MV3"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="License"></a>
+  <a href="https://github.com/idvhridoy/drag-open-links/stargazers"><img src="https://img.shields.io/github/stars/idvhridoy/drag-open-links?style=social" alt="Stars"></a>
+</p>
+
+<p align="center">
+  <a href="#installation">Installation</a> •
+  <a href="#features">Features</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#support">Support</a>
+</p>
+
+<p align="center">
+  <a href="https://buymeacoffee.com/hridoythebest">
+    <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee">
+  </a>
+</p>
+
+---
+
+## 🌟 About
+
+**Drag Open Links** is a free, privacy-focused Chrome extension that supercharges your browsing productivity. Simply drag a selection rectangle over multiple links to open them all at once in new tabs. Perfect for researchers, content curators, and power users who need to open many links quickly.
 
 ## Features
 
@@ -33,7 +61,9 @@ A professional Chrome extension that lets you open multiple links by drawing a s
 
 ### From Chrome Web Store
 
-*Coming soon*
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chrome.google.com/webstore/detail/drag-open-links)
+
+*Available now on Chrome Web Store!*
 
 ## Usage
 
@@ -126,7 +156,7 @@ This extension uses **Manifest V3** (MV3), the latest Chrome extension platform.
 
 ```bash
 # Clone the repository
-git clone https://github.com/user/drag-open-links.git
+git clone https://github.com/idvhridoy/drag-open-links.git
 cd drag-open-links
 
 # Load in Chrome as unpacked extension
@@ -139,25 +169,86 @@ cd drag-open-links
 2. Navigate to a page with many links (e.g., Google search results, Reddit)
 3. Test drag selection, keyboard shortcuts, and settings
 
-## Changelog
+## 📋 Changelog
 
-### v1.0.0
-- Initial release
-- Drag-to-select functionality
-- Configurable settings popup
-- Toast notifications
-- Counter badge
-- Auto-scroll support
-- Staggered tab opening
+### v1.0.0 (2024)
+- 🎉 Initial release
+- ✨ Drag-to-select functionality
+- ⚙️ Configurable settings popup
+- 🔔 Toast notifications
+- 📊 Counter badge
+- 📜 Auto-scroll support
+- 🚀 Staggered tab opening
 
-## License
+## 🔒 Privacy Policy
 
-MIT License - feel free to use and modify.
+**Drag Open Links** respects your privacy:
 
-## Contributing
+- ✅ **No data collection** - We don't collect any personal data
+- ✅ **No analytics** - No tracking or analytics of any kind
+- ✅ **No external requests** - The extension works entirely offline
+- ✅ **Open source** - Full code transparency
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+See our full [Privacy Policy](PRIVACY.md) for more details.
+
+## 💖 Support
+
+This extension is **free forever**! If you find it useful, you can support the development:
+
+<a href="https://buymeacoffee.com/hridoythebest">
+  <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee">
+</a>
+
+Your support helps keep this project maintained and free for everyone!
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. 🍴 Fork the repository
+2. 🔧 Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. 💾 Commit your changes (`git commit -m 'Add amazing feature'`)
+4. 📤 Push to the branch (`git push origin feature/amazing-feature`)
+5. 🔃 Open a Pull Request
+
+## 🐛 Bug Reports
+
+Found a bug? Please open an issue on [GitHub Issues](https://github.com/idvhridoy/drag-open-links/issues) with:
+- Description of the bug
+- Steps to reproduce
+- Expected vs actual behavior
+- Browser version
+
+## 👨‍💻 Author
+
+**Hridoy Ahmed**
+
+- GitHub: [@idvhridoy](https://github.com/idvhridoy)
+- Support: [Buy Me a Coffee](https://buymeacoffee.com/hridoythebest)
+
+## ⭐ Show Your Support
+
+If this extension helped you, please consider:
+- ⭐ Starring this repository
+- 📝 Leaving a review on Chrome Web Store
+- 🐦 Sharing with friends and colleagues
+- ☕ [Buying me a coffee](https://buymeacoffee.com/hridoythebest)
 
 ---
 
-**Made with ❤️ for productivity**
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/idvhridoy">Hridoy Ahmed</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/idvhridoy/drag-open-links">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+  <a href="https://buymeacoffee.com/hridoythebest">
+    <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee">
+  </a>
+</p>

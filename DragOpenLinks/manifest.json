@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Drag Open Links",
-  "description": "Open multiple links by drawing a selection rectangle with the left mouse button. Professional multi-link opener.",
+  "short_name": "DragOpenLinks",
+  "description": "Open multiple links at once by drawing a selection rectangle. Simply drag to select links and open them all in new tabs. Fast, free, and privacy-focused.",
   "version": "1.0.0",
-  "author": "DragOpenLinks",
-  "homepage_url": "https://github.com/user/drag-open-links",
+  "author": "Hridoy Ahmed",
+  "homepage_url": "https://github.com/idvhridoy/drag-open-links",
   "action": {
     "default_title": "Drag Open Links - Settings",
     "default_popup": "popup.html",

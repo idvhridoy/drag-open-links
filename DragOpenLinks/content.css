@@ -172,5 +172,5 @@
 .dol-body-dragging img,
 .dol-body-dragging a {
   -webkit-user-drag: none !important;
-  user-drag: none !important;
+  /* user-drag is non-standard, -webkit-user-drag covers Chrome/Edge */
 }

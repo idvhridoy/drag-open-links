@@ -145,16 +145,26 @@ elements.resetBtn.addEventListener('click', resetSettings);
 document.addEventListener('DOMContentLoaded', loadSettings);
 
 // Update version from manifest
-const versionEl = document.querySelector('.version');
-if (versionEl) {
+const updateVersion = () => {
   try {
     if (isChromeRuntimeAvailable()) {
-      versionEl.textContent = `v${chrome.runtime.getManifest().version}`;
-    } else {
-      versionEl.textContent = 'v?.?.?';
+      const version = chrome.runtime.getManifest().version;
+      
+      // Update header version
+      const versionEl = document.querySelector('.version');
+      if (versionEl) {
+        versionEl.textContent = `v${version}`;
+      }
+      
+      // Update footer version
+      const footerVersionEl = document.getElementById('version');
+      if (footerVersionEl) {
+        footerVersionEl.textContent = version;
+      }
     }
   } catch (error) {
     console.error('Failed to get version:', error);
-    versionEl.textContent = 'v?.?.?';
   }
-}
+};
+
+updateVersion();
