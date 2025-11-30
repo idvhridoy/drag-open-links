@@ -1,0 +1,176 @@
+/**
+ * DragOpenLinks - Professional Chrome Extension Styles
+ * All styles use !important to override page styles and high z-index for visibility
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SELECTION OVERLAY
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dol-selection-overlay {
+  position: absolute !important;
+  z-index: 2147483646 !important;
+  border: 2px dashed rgba(59, 130, 246, 0.9) !important;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(147, 51, 234, 0.12) 100%) !important;
+  pointer-events: none !important;
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 4px 20px rgba(59, 130, 246, 0.25),
+    inset 0 0 30px rgba(59, 130, 246, 0.08) !important;
+  border-radius: 4px !important;
+  backdrop-filter: blur(1px) !important;
+  animation: dol-pulse 1.5s ease-in-out infinite !important;
+}
+
+@keyframes dol-pulse {
+  0%, 100% { 
+    border-color: rgba(59, 130, 246, 0.9);
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.3),
+      0 4px 20px rgba(59, 130, 246, 0.25),
+      inset 0 0 30px rgba(59, 130, 246, 0.08);
+  }
+  50% { 
+    border-color: rgba(147, 51, 234, 0.9);
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.4),
+      0 4px 25px rgba(147, 51, 234, 0.3),
+      inset 0 0 35px rgba(147, 51, 234, 0.1);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LINK HIGHLIGHT
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dol-link-highlight {
+  outline: 3px solid rgba(59, 130, 246, 0.8) !important;
+  outline-offset: 2px !important;
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border-radius: 3px !important;
+  transition: all 0.15s ease-out !important;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4) !important;
+}
+
+.dol-link-highlight:hover {
+  outline-color: rgba(147, 51, 234, 0.9) !important;
+  background-color: rgba(147, 51, 234, 0.2) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COUNTER BADGE
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dol-counter-badge {
+  position: absolute !important;
+  z-index: 2147483647 !important;
+  padding: 6px 12px !important;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+  color: #ffffff !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  border-radius: 20px !important;
+  box-shadow: 
+    0 4px 15px rgba(59, 130, 246, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+  letter-spacing: 0.3px !important;
+  transform: translateZ(0) !important;
+  animation: dol-badge-appear 0.2s ease-out !important;
+}
+
+@keyframes dol-badge-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOAST NOTIFICATION
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dol-toast {
+  position: fixed !important;
+  bottom: 24px !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(100px) !important;
+  z-index: 2147483647 !important;
+  padding: 14px 24px !important;
+  background: linear-gradient(135deg, rgba(30, 30, 35, 0.95) 0%, rgba(45, 45, 55, 0.95) 100%) !important;
+  color: #ffffff !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  border-radius: 12px !important;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.dol-toast-visible {
+  opacity: 1 !important;
+  transform: translateX(-50%) translateY(0) !important;
+}
+
+.dol-toast::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 8px !important;
+  height: 8px !important;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6) !important;
+  animation: dol-toast-dot 1s ease-in-out infinite !important;
+}
+
+@keyframes dol-toast-dot {
+  0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+  50% { opacity: 0.6; transform: translateY(-50%) scale(0.8); }
+}
+
+.dol-toast {
+  padding-left: 36px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BODY MODIFIER - PREVENT TEXT SELECTION DURING DRAG
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dol-body-dragging {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  cursor: crosshair !important;
+}
+
+.dol-body-dragging * {
+  cursor: crosshair !important;
+}
+
+.dol-body-dragging a {
+  pointer-events: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PREVENT NATIVE DRAG VISUAL FEEDBACK
+   ═══════════════════════════════════════════════════════════════════════════ */
+.dol-body-dragging img,
+.dol-body-dragging a {
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+}
