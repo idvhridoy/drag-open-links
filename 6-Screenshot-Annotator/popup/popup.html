@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Screenshot Annotator</title>
+<style>:root{--bg:#1a1a2e;--bg2:#25253d;--text:#fff;--primary:#ec4899}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);width:280px;padding:16px}.header{text-align:center;margin-bottom:20px}.header h1{font-size:16px;margin-bottom:4px}.header p{font-size:12px;color:#94a3b8}.actions{display:flex;flex-direction:column;gap:10px}.btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;background:var(--bg2);border:none;border-radius:10px;color:var(--text);font-size:14px;cursor:pointer;transition:.2s}.btn:hover{background:#35355d}.btn.primary{background:linear-gradient(135deg,var(--primary),#be185d)}.btn span{font-size:18px}.shortcut{margin-top:16px;text-align:center;font-size:11px;color:#64748b}.shortcut kbd{padding:2px 6px;background:var(--bg2);border-radius:4px}</style></head>
+<body>
+<div class="header"><h1>📸 Screenshot Annotator</h1><p>Capture, annotate, share</p></div>
+<div class="actions">
+<button class="btn primary" id="captureBtn"><span>📷</span>Capture Full Page</button>
+<button class="btn" id="areaBtn"><span>✂️</span>Capture Area</button>
+<button class="btn" id="historyBtn"><span>📁</span>View History</button>
+</div>
+<div class="shortcut"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> to capture</div>
+<script>
+document.getElementById('captureBtn').addEventListener('click', async () => {
+  await chrome.runtime.sendMessage({ type: 'CAPTURE' });
+  window.close();
+});
+document.getElementById('areaBtn').addEventListener('click', async () => {
+  await chrome.runtime.sendMessage({ type: 'CAPTURE' });
+  window.close();
+});
+</script>
+
+<!-- Support Section -->
+<section class="support-section">
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn"> Buy Me a Coffee</a>
+</section>
+<footer class="footer">
+<p>Made with  by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<span class="version">v1.0.0</span>
+</footer>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px}
+.coffee-btn{display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.coffee-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,176,52,.4)}
+.footer{text-align:center;padding-top:12px}
+.footer p{font-size:11px;color:#888;margin-bottom:4px}
+.footer a{color:#3b82f6;text-decoration:none}
+.footer .version{font-size:10px;color:#666}
+</style>
+</body></html>

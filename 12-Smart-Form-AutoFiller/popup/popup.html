@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Form AutoFiller</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--text2:#94a3b8;--primary:#6366f1}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);width:300px}.popup{padding:16px}header{text-align:center;margin-bottom:16px}h1{font-size:15px;margin-bottom:4px}p{font-size:12px;color:var(--text2)}.profiles{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}.profile-item{display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg2);border-radius:10px;cursor:pointer;border:2px solid transparent}.profile-item:hover,.profile-item.active{border-color:var(--primary)}.profile-icon{width:36px;height:36px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center}.profile-name{flex:1;font-size:14px}.btn{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer}.btn:hover{background:#4f46e5}.btn.secondary{background:var(--bg2);margin-top:8px}</style></head>
+<body><div class="popup">
+<header><h1>✨ Form AutoFiller</h1><p>Fill forms with one click</p></header>
+<div class="profiles" id="profiles"></div>
+<button class="btn" id="fillBtn">Fill Current Page</button>
+<button class="btn secondary" id="manageBtn">Manage Profiles</button>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const { profiles = [], activeProfileId } = await chrome.storage.local.get(['profiles', 'activeProfileId']);
+  const profilesEl = document.getElementById('profiles');
+  
+  if (profiles.length === 0) {
+    profilesEl.innerHTML = '<p style="text-align:center;color:var(--text2);padding:20px">No profiles yet. Create one in settings.</p>';
+  } else {
+    profilesEl.innerHTML = profiles.map(p => `
+      <div class="profile-item ${p.id === activeProfileId ? 'active' : ''}" data-id="${p.id}">
+        <div class="profile-icon">👤</div>
+        <span class="profile-name">${p.name}</span>
+      </div>
+    `).join('');
+    
+    profilesEl.querySelectorAll('.profile-item').forEach(el => {
+      el.addEventListener('click', async () => {
+        const profile = profiles.find(p => p.id === el.dataset.id);
+        await chrome.storage.local.set({ activeProfileId: profile.id, activeProfile: profile });
+        document.querySelectorAll('.profile-item').forEach(e => e.classList.remove('active'));
+        el.classList.add('active');
+      });
+    });
+  }
+  
+  document.getElementById('fillBtn').addEventListener('click', async () => {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    chrome.tabs.sendMessage(tab.id, { type: 'FILL_FORMS' });
+    window.close();
+  });
+  
+  document.getElementById('manageBtn').addEventListener('click', () => chrome.runtime.openOptionsPage());
+});
+</script>
+<!-- Support Section -->
+<section class="support-section">
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn"> Buy Me a Coffee</a>
+</section>
+<footer class="footer">
+<p>Made with  by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<span class="version">v1.0.0</span>
+</footer>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px}
+.coffee-btn{display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.coffee-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,176,52,.4)}
+.footer{text-align:center;padding-top:12px}
+.footer p{font-size:11px;color:#888;margin-bottom:4px}
+.footer a{color:#3b82f6;text-decoration:none}
+.footer .version{font-size:10px;color:#666}
+</style>
+</body></html>

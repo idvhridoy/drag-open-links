@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Guard Plus - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        <h1>Privacy Guard Plus</h1>
+      </div>
+      <nav>
+        <a href="#protection" class="nav-item active" data-section="protection">Protection</a>
+        <a href="#cookies" class="nav-item" data-section="cookies">Cookies</a>
+        <a href="#whitelist" class="nav-item" data-section="whitelist">Whitelist</a>
+        <a href="#stats" class="nav-item" data-section="stats">Statistics</a>
+        <a href="#about" class="nav-item" data-section="about">About</a>
+      </nav>
+    </aside>
+    <main class="main">
+      <section id="protection" class="section active">
+        <h2>Protection Settings</h2>
+        <div class="card">
+          <div class="setting-row">
+            <div><h3>Enable Protection</h3><p>Master toggle for all privacy features</p></div>
+            <label class="toggle"><input type="checkbox" id="enabled" checked><span class="slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><h3>Block Trackers</h3><p>Block advertising and analytics trackers</p></div>
+            <label class="toggle"><input type="checkbox" id="blockTrackers" checked><span class="slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><h3>Block Fingerprinting</h3><p>Prevent browser fingerprinting attempts</p></div>
+            <label class="toggle"><input type="checkbox" id="blockFingerprinting" checked><span class="slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><h3>Block Cryptominers</h3><p>Prevent cryptocurrency mining scripts</p></div>
+            <label class="toggle"><input type="checkbox" id="blockCryptominers" checked><span class="slider"></span></label>
+          </div>
+        </div>
+      </section>
+      <section id="cookies" class="section">
+        <h2>Cookie Management</h2>
+        <div class="card">
+          <div class="setting-row">
+            <div><h3>Block Third-Party Cookies</h3><p>Block cookies from external domains</p></div>
+            <label class="toggle"><input type="checkbox" id="blockThirdPartyCookies" checked><span class="slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><h3>Auto-Clean Cookies</h3><p>Automatically remove tracking cookies</p></div>
+            <label class="toggle"><input type="checkbox" id="autoCleanCookies"><span class="slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div><h3>Clean Now</h3><p>Remove all tracking cookies immediately</p></div>
+            <button class="btn-primary" id="cleanNowBtn">Clean Cookies</button>
+          </div>
+        </div>
+      </section>
+      <section id="whitelist" class="section">
+        <h2>Whitelisted Sites</h2>
+        <div class="card">
+          <p class="info">Sites in this list will not have trackers blocked.</p>
+          <div id="whitelistItems"></div>
+          <div class="add-form">
+            <input type="text" id="newSite" placeholder="example.com">
+            <button class="btn-primary" id="addSiteBtn">Add</button>
+          </div>
+        </div>
+      </section>
+      <section id="stats" class="section">
+        <h2>Statistics</h2>
+        <div class="stats-grid">
+          <div class="stat-card"><span class="stat-value" id="statTotal">0</span><span class="stat-label">Total Blocked</span></div>
+          <div class="stat-card"><span class="stat-value" id="statTrackers">0</span><span class="stat-label">Trackers</span></div>
+          <div class="stat-card"><span class="stat-value" id="statCookies">0</span><span class="stat-label">Cookies</span></div>
+          <div class="stat-card"><span class="stat-value" id="statFingerprints">0</span><span class="stat-label">Fingerprints</span></div>
+        </div>
+        <button class="btn-danger" id="resetStatsBtn">Reset Statistics</button>
+      </section>
+      <section id="about" class="section">
+        <h2>About</h2>
+        <div class="card about-card">
+          <h3>Privacy Guard Plus</h3>
+          <p>Version 1.0.0</p>
+          <p>Comprehensive privacy protection for your browser.</p>
+          <div class="links"><a href="https://github.com/idvhridoy" target="_blank">GitHub</a><a href="https://buymeacoffee.com/hridoythebest" target="_blank">Support</a></div>
+          <p class="copyright">© 2024 Md Hridoy Hossain</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

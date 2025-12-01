@@ -1,0 +1,59 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>New Tab</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);color:#fff;min-height:100vh;padding:40px}
+.container{max-width:900px;margin:0 auto}
+.time{text-align:center;margin-bottom:40px}
+.time h1{font-size:80px;font-weight:200;margin-bottom:8px}
+.time p{font-size:20px;color:#94a3b8}
+.search{margin-bottom:40px}
+.search input{width:100%;padding:16px 24px;background:rgba(255,255,255,.1);border:none;border-radius:16px;font-size:16px;color:#fff;outline:none}
+.search input::placeholder{color:#64748b}
+.widgets{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.widget{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border-radius:16px;padding:24px}
+.widget h2{font-size:14px;color:#94a3b8;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
+.quick-links{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.quick-link{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;background:rgba(255,255,255,.05);border-radius:12px;text-decoration:none;color:#fff;transition:.2s}
+.quick-link:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.quick-link span{font-size:24px}
+.quick-link small{font-size:11px;color:#94a3b8}
+.notes textarea{width:100%;height:120px;background:transparent;border:none;color:#fff;font-size:14px;resize:none;outline:none}
+.quote{font-style:italic;color:#94a3b8;line-height:1.6}
+</style></head>
+<body>
+<div class="container">
+<div class="time"><h1 id="clock">00:00</h1><p id="date">Loading...</p></div>
+<div class="search"><input type="text" id="searchInput" placeholder="Search Google or type URL..."></div>
+<div class="widgets">
+<div class="widget"><h2>Quick Links</h2>
+<div class="quick-links">
+<a href="https://gmail.com" class="quick-link"><span>📧</span><small>Gmail</small></a>
+<a href="https://github.com" class="quick-link"><span>💻</span><small>GitHub</small></a>
+<a href="https://youtube.com" class="quick-link"><span>▶️</span><small>YouTube</small></a>
+<a href="https://twitter.com" class="quick-link"><span>🐦</span><small>Twitter</small></a>
+<a href="https://linkedin.com" class="quick-link"><span>💼</span><small>LinkedIn</small></a>
+<a href="https://reddit.com" class="quick-link"><span>🔴</span><small>Reddit</small></a>
+</div></div>
+<div class="widget"><h2>Quick Notes</h2><textarea id="notes" placeholder="Write your notes here..."></textarea></div>
+<div class="widget"><h2>Daily Quote</h2><p class="quote">"The only way to do great work is to love what you do." — Steve Jobs</p></div>
+</div></div>
+<script>
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+  document.getElementById('date').textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
+updateClock(); setInterval(updateClock, 1000);
+
+document.getElementById('searchInput').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    const q = e.target.value.trim();
+    if (q.includes('.') && !q.includes(' ')) window.location = 'https://' + (q.startsWith('http') ? q.replace(/^https?:\/\//, '') : q);
+    else window.location = 'https://www.google.com/search?q=' + encodeURIComponent(q);
+  }
+});
+
+const notes = document.getElementById('notes');
+chrome.storage.local.get('notes', d => { if (d.notes) notes.value = d.notes; });
+notes.addEventListener('input', () => chrome.storage.local.set({ notes: notes.value }));
+</script></body></html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Email Finder</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--primary:#ec4899}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);width:320px}.popup{padding:16px}header{text-align:center;margin-bottom:16px}h1{font-size:16px;margin-bottom:4px}p{font-size:12px;color:#94a3b8}.stats{display:flex;gap:12px;margin-bottom:16px}.stat{flex:1;text-align:center;padding:16px;background:var(--bg2);border-radius:12px}.stat h2{font-size:28px;color:var(--primary);margin-bottom:4px}.stat p{font-size:11px}.emails{display:flex;flex-direction:column;gap:8px;max-height:250px;overflow-y:auto}.email-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg2);border-radius:8px}.email-text{font-size:13px;font-family:monospace}.copy-btn{padding:6px 10px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:11px}.copy-all{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:10px;margin-top:12px;cursor:pointer;font-size:14px}.empty{text-align:center;padding:30px;color:#64748b}.scanning{text-align:center;padding:30px;color:#64748b}</style></head>
+<body><div class="popup">
+<header><h1>📧 Email Finder</h1><p>Find emails on this page</p></header>
+<div class="stats"><div class="stat"><h2 id="emailCount">-</h2><p>Emails Found</p></div></div>
+<div class="emails" id="emailsList"><div class="scanning">Scanning page...</div></div>
+<button class="copy-all" id="copyAll" style="display:none">📋 Copy All Emails</button>
+</div>
+<script>
+async function findEmails() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  try {
+    const response = await chrome.tabs.sendMessage(tab.id, { type: 'FIND_EMAILS' });
+    const emails = response.emails || [];
+    document.getElementById('emailCount').textContent = emails.length;
+    const list = document.getElementById('emailsList');
+    
+    if (emails.length === 0) {
+      list.innerHTML = '<div class="empty">📭 No emails found on this page</div>';
+      return;
+    }
+    
+    list.innerHTML = emails.map(e => `
+      <div class="email-item">
+        <span class="email-text">${e}</span>
+        <button class="copy-btn" data-email="${e}">Copy</button>
+      </div>
+    `).join('');
+    
+    document.getElementById('copyAll').style.display = 'block';
+    
+    list.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.onclick = () => {
+        navigator.clipboard.writeText(btn.dataset.email);
+        btn.textContent = '✓';
+        setTimeout(() => btn.textContent = 'Copy', 1000);
+      };
+    });
+    
+    document.getElementById('copyAll').onclick = () => {
+      navigator.clipboard.writeText(emails.join('\n'));
+      document.getElementById('copyAll').textContent = '✓ Copied All!';
+      setTimeout(() => document.getElementById('copyAll').textContent = '📋 Copy All Emails', 1500);
+    };
+  } catch (e) {
+    document.getElementById('emailsList').innerHTML = '<div class="empty">⚠️ Cannot scan this page</div>';
+  }
+}
+findEmails();
+</script>
+<!-- Support Section -->
+<section class="support-section">
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn"> Buy Me a Coffee</a>
+</section>
+<footer class="footer">
+<p>Made with  by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<span class="version">v1.0.0</span>
+</footer>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px}
+.coffee-btn{display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.coffee-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,176,52,.4)}
+.footer{text-align:center;padding-top:12px}
+.footer p{font-size:11px;color:#888;margin-bottom:4px}
+.footer a{color:#3b82f6;text-decoration:none}
+.footer .version{font-size:10px;color:#666}
+</style>
+</body></html>

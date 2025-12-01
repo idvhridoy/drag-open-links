@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>API Tester</title>
+<style>
+:root{--bg:#0a0a12;--bg2:#12121f;--bg3:#1a1a2e;--text:#fff;--text2:#94a3b8;--primary:#3b82f6;--success:#22c55e;--error:#ef4444;--warning:#f59e0b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'SF Mono',monospace;background:var(--bg);color:var(--text);width:450px;max-height:600px;overflow:hidden}
+.container{padding:12px}
+header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+header h1{font-size:14px;font-weight:600}
+.method-url{display:flex;gap:8px;margin-bottom:12px}
+select{padding:10px;background:var(--bg2);border:1px solid #333;border-radius:6px;color:var(--text);font-size:13px;font-weight:600;cursor:pointer}
+select.get{color:var(--success)}select.post{color:var(--warning)}select.put{color:var(--primary)}select.delete{color:var(--error)}
+input[type="text"]{flex:1;padding:10px 12px;background:var(--bg2);border:1px solid #333;border-radius:6px;color:var(--text);font-size:13px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary)}
+.tabs{display:flex;gap:4px;margin-bottom:8px}
+.tab{padding:8px 14px;background:transparent;border:none;color:var(--text2);font-size:12px;cursor:pointer;border-radius:6px}
+.tab.active{background:var(--bg3);color:var(--text)}
+.tab-content{display:none;background:var(--bg2);border-radius:8px;padding:10px}
+.tab-content.active{display:block}
+textarea{width:100%;height:100px;background:var(--bg);border:1px solid #333;border-radius:6px;color:var(--text);font-size:12px;padding:10px;resize:none;font-family:inherit}
+.send-btn{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin:12px 0}
+.send-btn:hover{background:#2563eb}
+.send-btn:disabled{opacity:.5;cursor:not-allowed}
+.response{background:var(--bg2);border-radius:8px;padding:12px;max-height:200px;overflow:auto}
+.response-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.status{padding:4px 10px;border-radius:4px;font-size:12px;font-weight:600}
+.status.success{background:rgba(34,197,94,.2);color:var(--success)}
+.status.error{background:rgba(239,68,68,.2);color:var(--error)}
+.response-time{font-size:11px;color:var(--text2)}
+pre{font-size:11px;line-height:1.5;white-space:pre-wrap;word-break:break-all;color:#d1d5db}
+.empty{text-align:center;padding:30px;color:var(--text2);font-size:13px}
+</style></head>
+<body><div class="container">
+<header><span style="font-size:20px">🔌</span><h1>API Tester</h1></header>
+<div class="method-url">
+<select id="method"><option value="GET">GET</option><option value="POST">POST</option><option value="PUT">PUT</option><option value="PATCH">PATCH</option><option value="DELETE">DELETE</option></select>
+<input type="text" id="url" placeholder="Enter request URL">
+</div>
+<div class="tabs">
+<button class="tab active" data-tab="headers">Headers</button>
+<button class="tab" data-tab="body">Body</button>
+<button class="tab" data-tab="auth">Auth</button>
+</div>
+<div class="tab-content active" id="headers-tab">
+<textarea id="headers" placeholder='{"Content-Type": "application/json"}'></textarea>
+</div>
+<div class="tab-content" id="body-tab">
+<textarea id="body" placeholder='{"key": "value"}'></textarea>
+</div>
+<div class="tab-content" id="auth-tab">
+<input type="text" id="authToken" placeholder="Bearer token" style="width:100%;margin-bottom:8px">
+</div>
+<button class="send-btn" id="sendBtn">Send Request</button>
+<div class="response" id="response">
+<div class="empty">Response will appear here</div>
+</div>
+
+<!-- Support Section -->
+<section class="support-section">
+<div class="support-divider"><span>Support Development</span></div>
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn">
+<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+<span>Buy Me a Coffee</span>
+</a>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+<p>Made with ❤️ by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<div class="footer-links">
+<a href="https://github.com/idvhridoy" target="_blank">GitHub</a>
+<span>•</span>
+<span>v1.0.0</span>
+</div>
+</footer>
+</div>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid #222}
+.support-divider{display:flex;align-items:center;margin-bottom:12px}
+.support-divider::before,.support-divider::after{content:'';flex:1;height:1px;background:#333}
+.support-divider span{padding:0 10px;font-size:10px;color:#666;text-transform:uppercase}
+.coffee-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.coffee-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,176,52,.4)}
+.footer{text-align:center;padding:12px 0;border-top:1px solid #222;margin-top:12px}
+.footer p{font-size:11px;color:#666;margin-bottom:4px}
+.footer a{color:var(--primary);text-decoration:none}
+.footer-links{font-size:10px;color:#555}
+.footer-links a{color:#888}
+</style>
+<script>
+const methodEl = document.getElementById('method');
+const urlEl = document.getElementById('url');
+const headersEl = document.getElementById('headers');
+const bodyEl = document.getElementById('body');
+const authEl = document.getElementById('authToken');
+const sendBtn = document.getElementById('sendBtn');
+const responseEl = document.getElementById('response');
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
+  });
+});
+
+methodEl.addEventListener('change', () => {
+  methodEl.className = methodEl.value.toLowerCase();
+});
+
+sendBtn.addEventListener('click', async () => {
+  const url = urlEl.value.trim();
+  if (!url) return;
+  
+  sendBtn.disabled = true;
+  sendBtn.textContent = 'Sending...';
+  const startTime = Date.now();
+  
+  try {
+    let headers = {};
+    try { headers = JSON.parse(headersEl.value || '{}'); } catch(e) {}
+    if (authEl.value) headers['Authorization'] = `Bearer ${authEl.value}`;
+    
+    const options = { method: methodEl.value, headers };
+    if (['POST', 'PUT', 'PATCH'].includes(methodEl.value) && bodyEl.value) {
+      options.body = bodyEl.value;
+    }
+    
+    const res = await fetch(url, options);
+    const time = Date.now() - startTime;
+    let data;
+    try { data = await res.json(); } catch { data = await res.text(); }
+    
+    responseEl.innerHTML = `
+      <div class="response-header">
+        <span class="status ${res.ok ? 'success' : 'error'}">${res.status} ${res.statusText}</span>
+        <span class="response-time">${time}ms</span>
+      </div>
+      <pre>${typeof data === 'object' ? JSON.stringify(data, null, 2) : data}</pre>
+    `;
+  } catch (err) {
+    responseEl.innerHTML = `<div class="status error">Error: ${err.message}</div>`;
+  }
+  
+  sendBtn.disabled = false;
+  sendBtn.textContent = 'Send Request';
+});
+</script></body></html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode Everywhere - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 4C16 4 16 16 16 16C16 16 4 16 4 16C4 9.37258 9.37258 4 16 4Z" fill="currentColor"/>
+            <circle cx="12" cy="12" r="2" fill="var(--accent-color)"/>
+          </svg>
+        </div>
+        <h1>Dark Mode Everywhere</h1>
+        <span class="version">Version 1.0.0</span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="#general" class="nav-item active" data-section="general">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          General
+        </a>
+        <a href="#themes" class="nav-item" data-section="themes">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="13.5" cy="6.5" r="2.5"/>
+            <circle cx="6" cy="12" r="2.5"/>
+            <circle cx="18" cy="12" r="2.5"/>
+            <circle cx="8.5" cy="18.5" r="2.5"/>
+            <circle cx="15.5" cy="18.5" r="2.5"/>
+          </svg>
+          Themes
+        </a>
+        <a href="#schedule" class="nav-item" data-section="schedule">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12,6 12,12 16,14"/>
+          </svg>
+          Schedule
+        </a>
+        <a href="#sites" class="nav-item" data-section="sites">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+          </svg>
+          Site Settings
+        </a>
+        <a href="#accessibility" class="nav-item" data-section="accessibility">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="4.5" r="2.5"/>
+            <path d="M12 7v7"/>
+            <circle cx="12" cy="12" r="0"/>
+            <path d="M8 21l4-7 4 7"/>
+            <path d="M6 12h12"/>
+          </svg>
+          Accessibility
+        </a>
+        <a href="#about" class="nav-item" data-section="about">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          About
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- General Section -->
+      <section id="general" class="section active">
+        <h2>General Settings</h2>
+        
+        <div class="setting-group">
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Enable Dark Mode</h3>
+              <p>Turn dark mode on or off globally</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="globalEnabled">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Sync with System Theme</h3>
+              <p>Automatically match your operating system's theme preference</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="syncWithSystem">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="setting-group">
+          <h3 class="group-title">Display Settings</h3>
+          
+          <div class="setting-row slider-row">
+            <div class="setting-info">
+              <h3>Brightness</h3>
+              <p>Adjust overall page brightness</p>
+            </div>
+            <div class="slider-control">
+              <input type="range" id="brightness" min="50" max="150" value="100">
+              <span class="slider-value" id="brightnessValue">100%</span>
+            </div>
+          </div>
+          
+          <div class="setting-row slider-row">
+            <div class="setting-info">
+              <h3>Contrast</h3>
+              <p>Adjust page contrast for better readability</p>
+            </div>
+            <div class="slider-control">
+              <input type="range" id="contrast" min="50" max="150" value="100">
+              <span class="slider-value" id="contrastValue">100%</span>
+            </div>
+          </div>
+          
+          <div class="setting-row slider-row">
+            <div class="setting-info">
+              <h3>Grayscale</h3>
+              <p>Reduce color saturation for reduced eye strain</p>
+            </div>
+            <div class="slider-control">
+              <input type="range" id="grayscale" min="0" max="100" value="0">
+              <span class="slider-value" id="grayscaleValue">0%</span>
+            </div>
+          </div>
+          
+          <div class="setting-row slider-row">
+            <div class="setting-info">
+              <h3>Sepia</h3>
+              <p>Add warm tint for comfortable reading</p>
+            </div>
+            <div class="slider-control">
+              <input type="range" id="sepia" min="0" max="100" value="0">
+              <span class="slider-value" id="sepiaValue">0%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="setting-group">
+          <h3 class="group-title">Media Settings</h3>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Dim Images</h3>
+              <p>Reduce brightness of images for consistency</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="dimImages" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Dim Videos</h3>
+              <p>Reduce brightness of video players</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="dimVideos">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Themes Section -->
+      <section id="themes" class="section">
+        <h2>Theme Selection</h2>
+        
+        <div class="theme-gallery" id="themeGallery">
+          <!-- Themes rendered by JS -->
+        </div>
+        
+        <div class="setting-group">
+          <h3 class="group-title">Create Custom Theme</h3>
+          
+          <div class="custom-theme-form">
+            <div class="form-row">
+              <label for="customThemeName">Theme Name</label>
+              <input type="text" id="customThemeName" placeholder="My Custom Theme">
+            </div>
+            
+            <div class="color-inputs">
+              <div class="color-input">
+                <label for="customBgColor">Background</label>
+                <input type="color" id="customBgColor" value="#1a1a1a">
+              </div>
+              <div class="color-input">
+                <label for="customTextColor">Text</label>
+                <input type="color" id="customTextColor" value="#e8e8e8">
+              </div>
+              <div class="color-input">
+                <label for="customLinkColor">Links</label>
+                <input type="color" id="customLinkColor" value="#8ab4f8">
+              </div>
+              <div class="color-input">
+                <label for="customAccentColor">Accent</label>
+                <input type="color" id="customAccentColor" value="#bb86fc">
+              </div>
+            </div>
+            
+            <div class="theme-preview-large" id="customThemePreview">
+              <div class="preview-header">Preview</div>
+              <div class="preview-content">
+                <h4>Sample Heading</h4>
+                <p>This is sample text content. <a href="#">Sample link</a> for preview.</p>
+                <button class="preview-btn">Button</button>
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" id="saveCustomTheme">Save Custom Theme</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Schedule Section -->
+      <section id="schedule" class="section">
+        <h2>Schedule Settings</h2>
+        
+        <div class="setting-group">
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Enable Schedule</h3>
+              <p>Automatically enable/disable dark mode based on time</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="scheduleEnabled">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="setting-group schedule-times-group" id="scheduleGroup">
+          <h3 class="group-title">Active Hours</h3>
+          <p class="group-desc">Dark mode will be active during these hours</p>
+          
+          <div class="time-inputs">
+            <div class="time-input-group">
+              <label for="scheduleStartTime">Start Time</label>
+              <input type="time" id="scheduleStartTime" value="20:00">
+            </div>
+            <span class="time-arrow">→</span>
+            <div class="time-input-group">
+              <label for="scheduleEndTime">End Time</label>
+              <input type="time" id="scheduleEndTime" value="07:00">
+            </div>
+          </div>
+          
+          <div class="schedule-visual">
+            <div class="schedule-bar">
+              <div class="schedule-active" id="scheduleActiveBar"></div>
+            </div>
+            <div class="schedule-labels">
+              <span>12 AM</span>
+              <span>6 AM</span>
+              <span>12 PM</span>
+              <span>6 PM</span>
+              <span>12 AM</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sites Section -->
+      <section id="sites" class="section">
+        <h2>Site Settings</h2>
+        
+        <div class="setting-group">
+          <h3 class="group-title">Excluded Sites</h3>
+          <p class="group-desc">Dark mode will never apply to these sites</p>
+          
+          <div class="excluded-sites-list" id="excludedSitesList">
+            <!-- Rendered by JS -->
+          </div>
+          
+          <div class="add-site-form">
+            <input type="text" id="newExcludedSite" placeholder="example.com">
+            <button class="btn btn-secondary" id="addExcludedSite">Add Site</button>
+          </div>
+        </div>
+        
+        <div class="setting-group">
+          <h3 class="group-title">Per-Site Overrides</h3>
+          <p class="group-desc">Custom theme settings for specific sites</p>
+          
+          <div class="site-overrides-list" id="siteOverridesList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Accessibility Section -->
+      <section id="accessibility" class="section">
+        <h2>Accessibility</h2>
+        
+        <div class="setting-group">
+          <h3 class="group-title">Visual Accessibility</h3>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>High Contrast Mode</h3>
+              <p>Increase contrast for better visibility</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="highContrast">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Color Blindness Mode</h3>
+              <p>Adjust colors for different types of color blindness</p>
+            </div>
+            <select id="colorBlindMode" class="select-input">
+              <option value="none">None</option>
+              <option value="protanopia">Protanopia (Red-Blind)</option>
+              <option value="deuteranopia">Deuteranopia (Green-Blind)</option>
+              <option value="tritanopia">Tritanopia (Blue-Blind)</option>
+            </select>
+          </div>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Reduce Motion</h3>
+              <p>Disable transitions and animations</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="reduceMotion">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="section">
+        <h2>About</h2>
+        
+        <div class="about-card">
+          <div class="about-logo">
+            <svg width="64" height="64" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 4C16 4 16 16 16 16C16 16 4 16 4 16C4 9.37258 9.37258 4 16 4Z" fill="currentColor"/>
+              <circle cx="12" cy="12" r="2" fill="var(--accent-color)"/>
+            </svg>
+          </div>
+          <h3>Dark Mode Everywhere</h3>
+          <p class="version-text">Version 1.0.0</p>
+          <p class="description">
+            Intelligent dark theme for every website. Reduce eye strain, save battery, 
+            and browse comfortably day or night.
+          </p>
+        </div>
+        
+        <div class="about-links">
+          <a href="https://github.com/idvhridoy" target="_blank" class="about-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="about-link coffee">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.5 3H6C5.17 3 4.5 3.67 4.5 4.5v11c0 1.38 1.12 2.5 2.5 2.5h8c1.38 0 2.5-1.12 2.5-2.5V9h1c1.38 0 2.5-1.12 2.5-2.5v-1c0-1.38-1.12-2.5-2.5-2.5zm0 4h-1V5h1v2zm-3 10.5c0 .28-.22.5-.5.5H7c-.28 0-.5-.22-.5-.5v-10h8v10zM7 21h10v2H7z"/>
+            </svg>
+            Support Development
+          </a>
+        </div>
+        
+        <div class="about-credits">
+          <p>Developed by <strong>Md Hridoy Hossain</strong></p>
+          <p>© 2024 Dark Mode Everywhere. All rights reserved.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -225,7 +225,7 @@ Found a bug? Please open an issue on [GitHub Issues](https://github.com/idvhrido
 
 ## 👨‍💻 Author
 
-**Hridoy Ahmed**
+**Md Hridoy Hossain**
 
 - GitHub: [@idvhridoy](https://github.com/idvhridoy)
 - Support: [Buy Me a Coffee](https://buymeacoffee.com/hridoythebest)
@@ -241,7 +241,7 @@ If this extension helped you, please consider:
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/idvhridoy">Hridoy Ahmed</a>
+  Made with ❤️ by <a href="https://github.com/idvhridoy">Md Hridoy Hossain</a>
 </p>
 
 <p align="center">

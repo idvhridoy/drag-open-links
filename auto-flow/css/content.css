@@ -1,0 +1,4 @@
+/* Auto Flow Content Styles */
+.auto-flow-indicator{position:fixed;bottom:20px;right:20px;z-index:999999;padding:10px 16px;background:linear-gradient(135deg,#1a1a2e,#252540);color:#00d9ff;border-radius:8px;font-family:-apple-system,sans-serif;font-size:12px;box-shadow:0 4px 20px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px}
+.auto-flow-indicator.processing{animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}

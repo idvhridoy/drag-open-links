@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Price Tracker Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <header><h1>💰 Price Tracker Pro</h1><button id="settingsBtn">⚙️</button></header>
+    <section class="stats">
+      <div class="stat"><span id="totalProducts">0</span><label>Products</label></div>
+      <div class="stat"><span id="priceDrops">0</span><label>Price Drops</label></div>
+      <div class="stat"><span id="totalSaved">$0</span><label>Saved</label></div>
+    </section>
+    <section class="products" id="productsList"></section>
+    <button class="btn-primary" id="trackCurrentBtn">Track Current Page</button>
+  </div>
+  <script src="popup.js"></script>
+
+<!-- Support Section -->
+<section class="support-section">
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn"> Buy Me a Coffee</a>
+</section>
+<footer class="footer">
+<p>Made with  by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<span class="version">v1.0.0</span>
+</footer>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px}
+.coffee-btn{display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.coffee-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,176,52,.4)}
+.footer{text-align:center;padding-top:12px}
+.footer p{font-size:11px;color:#888;margin-bottom:4px}
+.footer a{color:#3b82f6;text-decoration:none}
+.footer .version{font-size:10px;color:#666}
+</style></body>
+</html>

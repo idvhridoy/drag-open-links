@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Focus Blocker Settings</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--text2:#94a3b8;--primary:#ef4444}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:40px;max-width:700px;margin:0 auto}h1{margin-bottom:32px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px}.stat{text-align:center;padding:24px;background:var(--bg2);border-radius:12px}.stat h2{font-size:32px;color:var(--primary);margin-bottom:4px}.stat p{font-size:12px;color:var(--text2)}.card{background:var(--bg2);padding:24px;border-radius:12px;margin-bottom:24px}h3{font-size:16px;margin-bottom:16px}.sites-list{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto}.site-item{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--bg);border-radius:8px}.site-url{font-family:monospace;font-size:13px}.remove-btn{padding:6px 12px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px}.add-form{display:flex;gap:12px;margin-top:16px}.add-form input{flex:1;padding:12px;background:var(--bg);border:1px solid #334155;border-radius:8px;color:var(--text)}.add-form button{padding:12px 24px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer}.schedule{margin-top:16px}.schedule-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.1)}.toggle{width:48px;height:26px;position:relative}.toggle input{opacity:0}.slider{position:absolute;inset:0;background:#333;border-radius:26px;cursor:pointer}.slider::before{content:"";position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}.toggle input:checked+.slider{background:var(--primary)}.toggle input:checked+.slider::before{transform:translateX(22px)}.about{text-align:center;padding:32px;color:var(--text2)}.about a{color:var(--primary)}</style></head>
+<body><h1>🎯 Focus Blocker Settings</h1>
+<div class="stats">
+<div class="stat"><h2 id="sitesBlocked">5</h2><p>Sites Blocked</p></div>
+<div class="stat"><h2 id="attemptsBlocked">0</h2><p>Distractions Blocked</p></div>
+<div class="stat"><h2 id="focusTime">0h</h2><p>Focus Time Saved</p></div>
+</div>
+<div class="card">
+<h3>Blocked Sites</h3>
+<div class="sites-list" id="sitesList"></div>
+<div class="add-form"><input type="text" id="newSite" placeholder="Enter website to block (e.g., facebook.com)"><button id="addBtn">Add Site</button></div>
+</div>
+<div class="card">
+<h3>Schedule</h3>
+<div class="schedule">
+<div class="schedule-row"><span>Enable during work hours (9AM - 5PM)</span><label class="toggle"><input type="checkbox" id="workHours"><span class="slider"></span></label></div>
+<div class="schedule-row"><span>Enable on weekdays only</span><label class="toggle"><input type="checkbox" id="weekdaysOnly"><span class="slider"></span></label></div>
+<div class="schedule-row"><span>Show motivation quotes on blocked page</span><label class="toggle"><input type="checkbox" id="showQuotes" checked><span class="slider"></span></label></div>
+</div>
+</div>
+<div class="card about"><h2>Focus Distraction Blocker v1.0.0</h2><p style="margin:16px 0">Stay focused and productive</p><p><a href="https://github.com/idvhridoy">GitHub</a> | <a href="https://buymeacoffee.com/hridoythebest">Support</a></p><p style="margin-top:16px">© 2024 Md Hridoy Hossain</p></div>
+<script>
+let blockedSites = ['facebook.com', 'twitter.com', 'instagram.com', 'reddit.com', 'youtube.com'];
+async function load() {
+  const data = await chrome.storage.local.get(['blockedSites', 'stats']);
+  if (data.blockedSites) blockedSites = data.blockedSites;
+  document.getElementById('sitesBlocked').textContent = blockedSites.length;
+  document.getElementById('attemptsBlocked').textContent = data.stats?.attempts || 0;
+  render();
+}
+function render() {
+  document.getElementById('sitesList').innerHTML = blockedSites.map(s => `<div class="site-item"><span class="site-url">${s}</span><button class="remove-btn" data-site="${s}">Remove</button></div>`).join('');
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.onclick = async () => { blockedSites = blockedSites.filter(s => s !== btn.dataset.site); await save(); render(); };
+  });
+}
+async function save() { await chrome.storage.local.set({ blockedSites }); document.getElementById('sitesBlocked').textContent = blockedSites.length; }
+document.getElementById('addBtn').onclick = async () => {
+  const site = document.getElementById('newSite').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
+  if (site && !blockedSites.includes(site)) { blockedSites.push(site); await save(); render(); document.getElementById('newSite').value = ''; }
+};
+load();
+</script></body></html>

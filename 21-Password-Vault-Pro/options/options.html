@@ -1,0 +1,49 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Password Vault Settings</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--text2:#94a3b8;--primary:#14b8a6}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:40px;max-width:600px;margin:0 auto}h1{margin-bottom:32px}.card{background:var(--bg2);padding:24px;border-radius:12px;margin-bottom:24px}.setting{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}.setting:last-child{border:none}h3{font-size:14px;margin-bottom:4px}p{font-size:12px;color:var(--text2)}.toggle{width:48px;height:26px;position:relative}.toggle input{opacity:0}.slider{position:absolute;inset:0;background:#333;border-radius:26px;cursor:pointer}.slider::before{content:"";position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}.toggle input:checked+.slider{background:var(--primary)}.toggle input:checked+.slider::before{transform:translateX(22px)}select,input[type="number"]{padding:10px;background:var(--bg);border:1px solid #334155;border-radius:8px;color:var(--text);width:100px}.history{max-height:200px;overflow-y:auto}.history-item{display:flex;justify-content:space-between;padding:12px;background:var(--bg);border-radius:8px;margin-bottom:8px;font-family:monospace;font-size:12px}.copy-btn{padding:4px 12px;background:var(--primary);color:#fff;border:none;border-radius:4px;cursor:pointer}.about{text-align:center;padding:32px}.about a{color:var(--primary)}</style></head>
+<body><h1>🔐 Password Vault Settings</h1>
+<div class="card">
+<h2 style="margin-bottom:16px">Default Settings</h2>
+<div class="setting"><div><h3>Default Length</h3><p>Password length for new generations</p></div><input type="number" id="defaultLength" value="16" min="8" max="64"></div>
+<div class="setting"><div><h3>Include Uppercase</h3><p>A-Z characters</p></div><label class="toggle"><input type="checkbox" id="uppercase" checked><span class="slider"></span></label></div>
+<div class="setting"><div><h3>Include Lowercase</h3><p>a-z characters</p></div><label class="toggle"><input type="checkbox" id="lowercase" checked><span class="slider"></span></label></div>
+<div class="setting"><div><h3>Include Numbers</h3><p>0-9 characters</p></div><label class="toggle"><input type="checkbox" id="numbers" checked><span class="slider"></span></label></div>
+<div class="setting"><div><h3>Include Symbols</h3><p>!@#$%^&* characters</p></div><label class="toggle"><input type="checkbox" id="symbols" checked><span class="slider"></span></label></div>
+<div class="setting"><div><h3>Exclude Ambiguous</h3><p>Remove similar characters (0,O,l,1)</p></div><label class="toggle"><input type="checkbox" id="excludeAmbiguous"><span class="slider"></span></label></div>
+</div>
+<div class="card">
+<h2 style="margin-bottom:16px">Recent Passwords</h2>
+<div class="history" id="history"></div>
+</div>
+<div class="card about"><h2>Password Vault Pro v1.0.0</h2><p style="margin:16px 0">Generate secure passwords</p><p><a href="https://github.com/idvhridoy">GitHub</a> | <a href="https://buymeacoffee.com/hridoythebest">Support</a></p><p style="margin-top:16px">© 2024 Md Hridoy Hossain</p></div>
+<script>
+async function load() {
+  const { passwordSettings = {}, passwordHistory = [] } = await chrome.storage.local.get(['passwordSettings', 'passwordHistory']);
+  document.getElementById('defaultLength').value = passwordSettings.defaultLength || 16;
+  document.getElementById('uppercase').checked = passwordSettings.uppercase !== false;
+  document.getElementById('lowercase').checked = passwordSettings.lowercase !== false;
+  document.getElementById('numbers').checked = passwordSettings.numbers !== false;
+  document.getElementById('symbols').checked = passwordSettings.symbols !== false;
+  document.getElementById('excludeAmbiguous').checked = passwordSettings.excludeAmbiguous === true;
+  
+  document.getElementById('history').innerHTML = passwordHistory.length ? passwordHistory.slice(0, 10).map(p => `
+    <div class="history-item"><span>${p.substring(0, 4)}${'•'.repeat(p.length - 8)}${p.substring(p.length - 4)}</span><button class="copy-btn" data-pw="${p}">Copy</button></div>
+  `).join('') : '<p style="text-align:center;color:var(--text2);padding:20px">No passwords generated yet</p>';
+  
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.onclick = () => { navigator.clipboard.writeText(btn.dataset.pw); btn.textContent = '✓'; setTimeout(() => btn.textContent = 'Copy', 1000); };
+  });
+}
+async function save() {
+  const settings = {
+    defaultLength: parseInt(document.getElementById('defaultLength').value),
+    uppercase: document.getElementById('uppercase').checked,
+    lowercase: document.getElementById('lowercase').checked,
+    numbers: document.getElementById('numbers').checked,
+    symbols: document.getElementById('symbols').checked,
+    excludeAmbiguous: document.getElementById('excludeAmbiguous').checked
+  };
+  await chrome.storage.local.set({ passwordSettings: settings });
+}
+document.querySelectorAll('input').forEach(el => el.addEventListener('change', save));
+load();
+</script></body></html>

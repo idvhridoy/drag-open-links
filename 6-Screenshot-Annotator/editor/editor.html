@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Screenshot Editor</title>
+<style>
+:root{--bg:#0f0f1a;--bg2:#1a1a2e;--text:#fff;--primary:#ec4899}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column}
+.toolbar{display:flex;gap:8px;padding:12px 16px;background:var(--bg2);border-bottom:1px solid #333;align-items:center}
+.tool-group{display:flex;gap:4px}
+.tool-btn{width:40px;height:40px;border:none;background:transparent;color:var(--text);border-radius:8px;cursor:pointer;font-size:18px;transition:.2s}
+.tool-btn:hover,.tool-btn.active{background:rgba(236,72,153,.2);color:var(--primary)}
+.separator{width:1px;height:30px;background:#333;margin:0 8px}
+.color-picker{width:40px;height:40px;border:none;border-radius:8px;cursor:pointer;padding:0}
+input[type="range"]{width:100px}
+.spacer{flex:1}
+.action-btn{padding:10px 20px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500}
+.action-btn.secondary{background:var(--bg);border:1px solid #444}
+.canvas-container{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:20px}
+#canvas{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+</style></head>
+<body>
+<div class="toolbar">
+<div class="tool-group">
+<button class="tool-btn active" data-tool="select" title="Select">🖱️</button>
+<button class="tool-btn" data-tool="pen" title="Pen">✏️</button>
+<button class="tool-btn" data-tool="line" title="Line">📏</button>
+<button class="tool-btn" data-tool="rect" title="Rectangle">⬜</button>
+<button class="tool-btn" data-tool="circle" title="Circle">⭕</button>
+<button class="tool-btn" data-tool="arrow" title="Arrow">➡️</button>
+<button class="tool-btn" data-tool="text" title="Text">T</button>
+<button class="tool-btn" data-tool="blur" title="Blur">🔲</button>
+</div>
+<div class="separator"></div>
+<input type="color" class="color-picker" id="colorPicker" value="#ec4899">
+<input type="range" id="strokeWidth" min="1" max="20" value="3" title="Stroke Width">
+<div class="spacer"></div>
+<button class="action-btn secondary" id="copyBtn">📋 Copy</button>
+<button class="action-btn" id="downloadBtn">💾 Download</button>
+</div>
+<div class="canvas-container"><canvas id="canvas"></canvas></div>
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let img = new Image();
+let tool = 'select';
+let color = '#ec4899';
+let strokeWidth = 3;
+let drawing = false;
+let startX, startY;
+
+// Load screenshot
+chrome.runtime.sendMessage({ type: 'GET_SCREENSHOT' }, (response) => {
+  if (response.screenshot) {
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+    };
+    img.src = response.screenshot;
+  }
+});
+
+// Tool selection
+document.querySelectorAll('.tool-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    tool = btn.dataset.tool;
+  });
+});
+
+document.getElementById('colorPicker').addEventListener('input', e => color = e.target.value);
+document.getElementById('strokeWidth').addEventListener('input', e => strokeWidth = e.target.value);
+
+// Drawing
+canvas.addEventListener('mousedown', e => {
+  drawing = true;
+  startX = e.offsetX;
+  startY = e.offsetY;
+  if (tool === 'pen') {
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+  }
+});
+
+canvas.addEventListener('mousemove', e => {
+  if (!drawing) return;
+  if (tool === 'pen') {
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = strokeWidth;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  }
+});
+
+canvas.addEventListener('mouseup', e => {
+  if (!drawing) return;
+  drawing = false;
+  const endX = e.offsetX, endY = e.offsetY;
+  
+  ctx.strokeStyle = color;
+  ctx.lineWidth = strokeWidth;
+  ctx.lineCap = 'round';
+  
+  if (tool === 'line') {
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    ctx.stroke();
+  } else if (tool === 'rect') {
+    ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+  } else if (tool === 'circle') {
+    const rx = (endX - startX) / 2, ry = (endY - startY) / 2;
+    ctx.beginPath();
+    ctx.ellipse(startX + rx, startY + ry, Math.abs(rx), Math.abs(ry), 0, 0, Math.PI * 2);
+    ctx.stroke();
+  } else if (tool === 'arrow') {
+    const angle = Math.atan2(endY - startY, endX - startX);
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    ctx.lineTo(endX - 15 * Math.cos(angle - Math.PI / 6), endY - 15 * Math.sin(angle - Math.PI / 6));
+    ctx.moveTo(endX, endY);
+    ctx.lineTo(endX - 15 * Math.cos(angle + Math.PI / 6), endY - 15 * Math.sin(angle + Math.PI / 6));
+    ctx.stroke();
+  } else if (tool === 'text') {
+    const text = prompt('Enter text:');
+    if (text) {
+      ctx.fillStyle = color;
+      ctx.font = `${strokeWidth * 6}px Arial`;
+      ctx.fillText(text, startX, startY);
+    }
+  } else if (tool === 'blur') {
+    ctx.filter = 'blur(10px)';
+    ctx.drawImage(canvas, startX, startY, endX - startX, endY - startY, startX, startY, endX - startX, endY - startY);
+    ctx.filter = 'none';
+  }
+});
+
+// Actions
+document.getElementById('downloadBtn').addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.download = `screenshot-${Date.now()}.png`;
+  link.href = canvas.toDataURL();
+  link.click();
+});
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const blob = await new Promise(r => canvas.toBlob(r));
+  await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+  document.getElementById('copyBtn').textContent = '✓ Copied!';
+  setTimeout(() => document.getElementById('copyBtn').textContent = '📋 Copy', 2000);
+});
+</script>
+</body></html>

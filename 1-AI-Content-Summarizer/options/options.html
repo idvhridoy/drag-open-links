@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Content Summarizer - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <aside class="sidebar">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+        </svg>
+        <h1>AI Content Summarizer</h1>
+      </div>
+      <nav>
+        <a href="#general" class="nav-item active" data-section="general">General</a>
+        <a href="#api" class="nav-item" data-section="api">API Settings</a>
+        <a href="#history" class="nav-item" data-section="history">History</a>
+        <a href="#about" class="nav-item" data-section="about">About</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section id="general" class="section active">
+        <h2>General Settings</h2>
+        <div class="setting-group">
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Default Summary Length</h3>
+              <p>Choose the default length for summaries</p>
+            </div>
+            <select id="defaultLength">
+              <option value="brief">Brief (25%)</option>
+              <option value="medium" selected>Medium (50%)</option>
+              <option value="detailed">Detailed (75%)</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Default Summary Style</h3>
+              <p>Choose how summaries are formatted</p>
+            </div>
+            <select id="defaultStyle">
+              <option value="paragraph" selected>Paragraph</option>
+              <option value="bullets">Bullet Points</option>
+              <option value="executive">Executive Summary</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Show Floating Button</h3>
+              <p>Display the quick summarize button on pages</p>
+            </div>
+            <label class="toggle"><input type="checkbox" id="showFloatingButton" checked><span class="slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>Enable Voice Reading</h3>
+              <p>Read summaries aloud using text-to-speech</p>
+            </div>
+            <label class="toggle"><input type="checkbox" id="voiceEnabled"><span class="slider"></span></label>
+          </div>
+        </div>
+      </section>
+
+      <section id="api" class="section">
+        <h2>API Settings</h2>
+        <div class="setting-group">
+          <div class="api-notice">
+            <p>Configure your AI API key for enhanced summaries. Without an API key, the extension uses basic extractive summarization.</p>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <h3>API Provider</h3>
+              <p>Select your preferred AI service</p>
+            </div>
+            <select id="apiProvider">
+              <option value="openai">OpenAI (GPT-4)</option>
+              <option value="anthropic">Anthropic (Claude)</option>
+            </select>
+          </div>
+          <div class="setting-row column">
+            <div class="setting-info">
+              <h3>API Key</h3>
+              <p>Your API key is stored securely and never shared</p>
+            </div>
+            <div class="input-group">
+              <input type="password" id="apiKey" placeholder="Enter your API key">
+              <button id="toggleApiKey" class="btn-icon">👁</button>
+            </div>
+          </div>
+          <button id="saveApiKey" class="btn-primary">Save API Key</button>
+          <p id="apiStatus" class="status-text"></p>
+        </div>
+      </section>
+
+      <section id="history" class="section">
+        <h2>Summary History</h2>
+        <div class="history-actions">
+          <button id="clearHistory" class="btn-danger">Clear All History</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <section id="about" class="section">
+        <h2>About</h2>
+        <div class="about-card">
+          <h3>AI Content Summarizer</h3>
+          <p>Version 1.0.0</p>
+          <p>AI-powered instant summaries of web content. Save time and extract key insights from any article, paper, or webpage.</p>
+          <div class="about-links">
+            <a href="https://github.com/idvhridoy" target="_blank">GitHub</a>
+            <a href="https://buymeacoffee.com/hridoythebest" target="_blank">Support</a>
+          </div>
+          <p class="copyright">© 2024 Md Hridoy Hossain</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

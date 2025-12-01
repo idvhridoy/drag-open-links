@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Screenshot Annotator",
+  "version": "1.0.0",
+  "description": "Capture, annotate, and share screenshots with powerful editing tools. Draw, add text, blur sensitive info.",
+  "author": "Md Hridoy Hossain",
+  "homepage_url": "https://github.com/idvhridoy",
+  "permissions": ["activeTab", "storage", "downloads", "clipboardWrite"],
+  "background": { "service_worker": "js/background.js", "type": "module" },
+  "action": { "default_popup": "popup/popup.html", "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }},
+  "commands": { "capture-screen": { "suggested_key": { "default": "Ctrl+Shift+X" }, "description": "Capture screenshot" }},
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+}

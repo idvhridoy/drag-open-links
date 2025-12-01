@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Auto Flow</title>
+<style>
+:root{--bg:#0f0f1a;--bg2:#1a1a2e;--bg3:#252540;--text:#e0e0e0;--text2:#8892a0;--primary:#00d9ff;--success:#4caf50;--warning:#ffc107;--error:#ff6b6b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);width:400px;max-height:550px;overflow:hidden}
+.header{padding:16px;border-bottom:1px solid var(--bg3);display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.header-info h1{font-size:14px;font-weight:600}.header-info p{font-size:11px;color:var(--text2)}
+.support-btn{margin-left:auto;padding:6px 12px;background:var(--warning);color:#000;border:none;border-radius:6px;font-size:11px;cursor:pointer;text-decoration:none}
+.tabs{display:flex;border-bottom:1px solid var(--bg3)}
+.tab{flex:1;padding:12px;background:transparent;border:none;color:var(--text2);font-size:12px;cursor:pointer}
+.tab.active{color:var(--primary);border-bottom:2px solid var(--primary)}
+.content{padding:16px;max-height:400px;overflow-y:auto}
+.panel{display:none}.panel.active{display:block}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px}
+select,input[type="text"],input[type="number"],textarea{width:100%;padding:10px;background:var(--bg2);border:1px solid var(--bg3);border-radius:8px;color:var(--text);font-size:13px}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--primary)}
+textarea{height:100px;resize:none;font-family:monospace;font-size:12px}
+.btn{padding:10px 16px;border:none;border-radius:8px;font-size:13px;cursor:pointer;transition:.2s}
+.btn-primary{background:var(--primary);color:#000}.btn-primary:hover{background:#33e0ff}
+.btn-danger{background:var(--error);color:#fff}
+.btn-secondary{background:var(--bg3);color:var(--text)}
+.btn-outline{background:transparent;border:1px solid var(--bg3);color:var(--text)}
+.btn-group{display:flex;gap:8px;margin-top:16px}
+.queue-info{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg2);border-radius:8px;margin-bottom:12px}
+.queue-count{font-size:24px;font-weight:700;color:var(--primary)}
+.progress-bar{height:6px;background:var(--bg3);border-radius:3px;margin:12px 0;overflow:hidden}
+.progress-fill{height:100%;background:var(--primary);width:0%;transition:.3s}
+.status-text{font-size:12px;color:var(--text2);text-align:center}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--bg3)}
+.setting-row:last-child{border:none}
+.setting-label{font-size:13px}.setting-value select,.setting-value input{width:120px}
+.toggle{width:44px;height:24px;position:relative}.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--bg3);border-radius:24px;cursor:pointer}
+.slider::before{content:"";position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked+.slider{background:var(--primary)}.toggle input:checked+.slider::before{transform:translateX(20px)}
+.log{font-family:monospace;font-size:11px;background:var(--bg2);padding:12px;border-radius:8px;max-height:200px;overflow-y:auto}
+.log-entry{padding:4px 0;border-bottom:1px solid var(--bg3)}
+.log-entry.info{color:var(--text2)}.log-entry.success{color:var(--success)}.log-entry.warning{color:var(--warning)}.log-entry.error{color:var(--error)}
+.tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tool-card{padding:14px;background:var(--bg2);border-radius:10px;text-decoration:none;color:var(--text);transition:.2s}
+.tool-card:hover{background:var(--bg3);transform:translateY(-2px)}
+.tool-icon{font-size:24px;margin-bottom:8px}.tool-name{font-size:12px;font-weight:500}.tool-desc{font-size:10px;color:var(--text2)}
+.failed-count{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(255,107,107,.2);color:var(--error);border-radius:6px;font-size:12px;margin-bottom:12px}
+</style></head>
+<body>
+<div class="header">
+<div class="logo">🦆</div>
+<div class="header-info"><h1>Auto Flow</h1><p>Automation for VEO AI</p></div>
+<a class="support-btn" href="https://buymeacoffee.com/hridoythebest" target="_blank">☕ Support</a>
+</div>
+<div class="tabs">
+<button class="tab active" data-tab="control">Control</button>
+<button class="tab" data-tab="settings">Settings</button>
+<button class="tab" data-tab="history">History</button>
+<button class="tab" data-tab="tools">More Tools</button>
+</div>
+<div class="content">
+<!-- Control Panel -->
+<div class="panel active" id="control">
+<div class="form-group">
+<label>Creation Mode</label>
+<select id="mode"><option value="t2v">Text-to-Video (T2V)</option><option value="i2v">Image-to-Video (I2V)</option></select>
+</div>
+<div class="form-group">
+<label>Prompt List <small>(JSON or line-separated)</small></label>
+<textarea id="prompts" placeholder='Enter prompts here or import from file...'></textarea>
+<input type="file" id="fileInput" accept=".txt,.json" style="display:none">
+<button class="btn btn-outline" onclick="document.getElementById('fileInput').click()" style="margin-top:8px;width:100%">📁 Import Prompts</button>
+</div>
+<div class="form-group">
+<label>Job Folder Name</label>
+<input type="text" id="folderName" value="Flow-01" placeholder="e.g., Flow-01">
+</div>
+<div class="queue-info">
+<div><div class="queue-count" id="queueCount">0</div><small>Queued</small></div>
+<button class="btn btn-secondary" id="manageBtn">Manage →</button>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="status-text" id="statusText">Ready</div>
+<div class="btn-group">
+<button class="btn btn-outline" id="addQueue" style="flex:1">Add to Queue</button>
+<button class="btn btn-primary" id="startQueue" style="flex:1">▶ Start Queue</button>
+<button class="btn btn-danger" id="stopQueue" style="flex:0 0 60px;display:none">⏹</button>
+</div>
+</div>
+<!-- Settings Panel -->
+<div class="panel" id="settings">
+<div class="setting-row"><span class="setting-label">Videos Per Task</span><div class="setting-value"><select id="videosPerTask"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div></div>
+<div class="setting-row"><span class="setting-label">Model</span><div class="setting-value"><select id="model"><option value="default">Default (Veo 3.1 - Fast)</option><option value="quality">Veo 3.1 - Quality</option></select></div></div>
+<div class="setting-row"><span class="setting-label">Aspect Ratio</span><div class="setting-value"><select id="aspectRatio"><option value="16:9">Landscape (16:9)</option><option value="9:16">Portrait (9:16)</option><option value="1:1">Square (1:1)</option></select></div></div>
+<div class="setting-row"><span class="setting-label">Start Position</span><div class="setting-value"><input type="number" id="startPosition" value="1" min="1" style="width:60px"></div></div>
+<div class="setting-row"><span class="setting-label">Wait Time (sec)</span><div class="setting-value"><input type="number" id="waitTimeMin" value="30" min="10" style="width:50px"> - <input type="number" id="waitTimeMax" value="60" style="width:50px"></div></div>
+<div class="setting-row"><span class="setting-label">Auto-Download</span><label class="toggle"><input type="checkbox" id="autoDownload" checked><span class="slider"></span></label></div>
+<div class="setting-row"><span class="setting-label">Language</span><div class="setting-value"><select id="language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></div></div>
+</div>
+<!-- History Panel -->
+<div class="panel" id="history">
+<div class="failed-count" id="failedCount"><span>⚠️</span><span>0 Failed Tasks</span><button class="btn btn-outline" style="padding:4px 8px;font-size:10px" id="copyFailed">Copy</button></div>
+<h3 style="font-size:13px;margin-bottom:10px">Activity Log</h3>
+<div class="log" id="logContainer"><div class="log-entry info">No activity yet</div></div>
+<button class="btn btn-outline" id="clearLog" style="width:100%;margin-top:10px">Clear Log</button>
+</div>
+<!-- More Tools Panel -->
+<div class="panel" id="tools">
+<div class="tool-grid">
+<a class="tool-card" href="https://discord.gg/autoflow" target="_blank"><div class="tool-icon">💬</div><div class="tool-name">Discord Community</div><div class="tool-desc">Support & Discussion</div></a>
+<a class="tool-card" href="#"><div class="tool-icon">🎨</div><div class="tool-name">Auto Whisk</div><div class="tool-desc">Whisk AI Automation</div></a>
+<a class="tool-card" href="#"><div class="tool-icon">📹</div><div class="tool-name">YouTube Downloader</div><div class="tool-desc">Download videos</div></a>
+<a class="tool-card" href="#"><div class="tool-icon">🍪</div><div class="tool-name">Cookie Exporter</div><div class="tool-desc">Export cookies</div></a>
+</div>
+</div>
+</div>
+<script src="popup.js"></script>
+</body></html>

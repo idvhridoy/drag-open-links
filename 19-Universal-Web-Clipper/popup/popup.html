@@ -1,0 +1,49 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Web Clipper</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--primary:#f97316}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);width:340px}.popup{padding:16px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}h1{font-size:15px}.clip-btn{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer}.clips{display:flex;flex-direction:column;gap:8px;max-height:350px;overflow-y:auto}.clip{padding:12px;background:var(--bg2);border-radius:10px}.clip-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}.clip-title{font-size:13px;font-weight:500;flex:1}.clip-type{padding:2px 6px;background:rgba(249,115,22,.2);color:var(--primary);border-radius:4px;font-size:10px}.clip-content{font-size:12px;color:#94a3b8;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.clip-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:11px;color:#64748b}.delete-btn{background:none;border:none;color:#ef4444;cursor:pointer}.empty{text-align:center;padding:40px;color:#64748b}</style></head>
+<body><div class="popup">
+<header><h1>📎 Web Clipper</h1><button class="clip-btn" id="clipPage">Clip This Page</button></header>
+<div class="clips" id="clipsList"><div class="empty">No clips yet</div></div>
+</div>
+<script>
+async function load() {
+  const { clips } = await chrome.runtime.sendMessage({ type: 'GET_CLIPS' });
+  const list = document.getElementById('clipsList');
+  if (!clips.length) { list.innerHTML = '<div class="empty">📎 No clips yet. Right-click to clip!</div>'; return; }
+  list.innerHTML = clips.map(c => `
+    <div class="clip">
+      <div class="clip-header"><span class="clip-title">${c.title}</span><span class="clip-type">${c.type}</span></div>
+      <div class="clip-content">${c.content}</div>
+      <div class="clip-footer"><span>${new Date(c.timestamp).toLocaleDateString()}</span><button class="delete-btn" data-id="${c.id}">×</button></div>
+    </div>
+  `).join('');
+  list.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.onclick = async () => { await chrome.runtime.sendMessage({ type: 'DELETE_CLIP', id: btn.dataset.id }); load(); };
+  });
+}
+load();
+document.getElementById('clipPage').onclick = async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const { clips = [] } = await chrome.storage.local.get('clips');
+  clips.unshift({ id: Date.now().toString(), type: 'page', content: tab.title, url: tab.url, title: tab.title, timestamp: new Date().toISOString() });
+  await chrome.storage.local.set({ clips: clips.slice(0, 100) });
+  load();
+};
+</script>
+<!-- Support Section -->
+<section class="support-section">
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn"> Buy Me a Coffee</a>
+</section>
+<footer class="footer">
+<p>Made with  by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<span class="version">v1.0.0</span>
+</footer>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px}
+.coffee-btn{display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.coffee-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,176,52,.4)}
+.footer{text-align:center;padding-top:12px}
+.footer p{font-size:11px;color:#888;margin-bottom:4px}
+.footer a{color:#3b82f6;text-decoration:none}
+.footer .version{font-size:10px;color:#666}
+</style>
+</body></html>

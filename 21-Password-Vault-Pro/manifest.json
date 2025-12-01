@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Password Vault Pro",
+  "version": "1.0.0",
+  "description": "Secure password generator and manager. Generate strong passwords instantly.",
+  "author": "Md Hridoy Hossain",
+  "homepage_url": "https://github.com/idvhridoy",
+  "permissions": ["storage", "clipboardWrite"],
+  "action": { "default_popup": "popup/popup.html", "default_icon": { "16": "icons/icon16.png", "128": "icons/icon128.png" }},
+  "options_page": "options/options.html",
+  "icons": { "16": "icons/icon16.png", "128": "icons/icon128.png" }
+}

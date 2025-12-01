@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Generator - Dark Mode Everywhere</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a1a;
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    .icon-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 40px 0;
+    }
+    .icon-box {
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .icon-box p {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #888;
+    }
+    canvas {
+      border-radius: 8px;
+    }
+    button {
+      margin: 10px;
+      padding: 12px 24px;
+      background: #8ab4f8;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #aecbfa;
+    }
+    h1 { color: #8ab4f8; }
+  </style>
+</head>
+<body>
+  <h1>Dark Mode Everywhere - Icon Generator</h1>
+  <p>Click the buttons below to download icons for the extension</p>
+  
+  <div class="icon-container">
+    <div class="icon-box">
+      <canvas id="icon16" width="16" height="16"></canvas>
+      <p>16x16</p>
+      <button onclick="download('icon16', 16)">Download</button>
+    </div>
+    <div class="icon-box">
+      <canvas id="icon32" width="32" height="32"></canvas>
+      <p>32x32</p>
+      <button onclick="download('icon32', 32)">Download</button>
+    </div>
+    <div class="icon-box">
+      <canvas id="icon48" width="48" height="48"></canvas>
+      <p>48x48</p>
+      <button onclick="download('icon48', 48)">Download</button>
+    </div>
+    <div class="icon-box">
+      <canvas id="icon128" width="128" height="128"></canvas>
+      <p>128x128</p>
+      <button onclick="download('icon128', 128)">Download</button>
+    </div>
+  </div>
+  
+  <button onclick="downloadAll()">Download All Icons</button>
+
+  <script>
+    function drawIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      const scale = size / 128;
+      
+      // Background
+      const bgGrad = ctx.createLinearGradient(0, 0, size, size);
+      bgGrad.addColorStop(0, '#1a1a2e');
+      bgGrad.addColorStop(1, '#16213e');
+      
+      ctx.beginPath();
+      ctx.arc(size/2, size/2, size/2 - 2*scale, 0, Math.PI * 2);
+      ctx.fillStyle = bgGrad;
+      ctx.fill();
+      
+      // Border
+      const borderGrad = ctx.createLinearGradient(0, 0, size, size);
+      borderGrad.addColorStop(0, '#8ab4f8');
+      borderGrad.addColorStop(1, '#bb86fc');
+      ctx.strokeStyle = borderGrad;
+      ctx.lineWidth = 3 * scale;
+      ctx.stroke();
+      
+      // Moon
+      const moonGrad = ctx.createLinearGradient(0, 0, size, size);
+      moonGrad.addColorStop(0, '#e8e8e8');
+      moonGrad.addColorStop(1, '#c0c0c0');
+      
+      ctx.beginPath();
+      ctx.arc(size/2, size/2, 30*scale, 0, Math.PI * 2);
+      ctx.fillStyle = moonGrad;
+      ctx.fill();
+      
+      // Moon shadow
+      ctx.beginPath();
+      ctx.arc(size/2 + 16*scale, size/2 - 10*scale, 22*scale, 0, Math.PI * 2);
+      ctx.fillStyle = bgGrad;
+      ctx.fill();
+      
+      // Stars
+      const drawStar = (x, y, r, color) => {
+        ctx.beginPath();
+        ctx.arc(x * scale, y * scale, r * scale, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      };
+      
+      drawStar(100, 35, 3, '#8ab4f8');
+      drawStar(95, 85, 2, '#bb86fc');
+      drawStar(30, 45, 2.5, '#8ab4f8');
+      drawStar(35, 75, 2, '#bb86fc');
+    }
+    
+    function download(canvasId, size) {
+      const canvas = document.getElementById(canvasId);
+      const link = document.createElement('a');
+      link.download = `icon${size}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+    
+    function downloadAll() {
+      [16, 32, 48, 128].forEach(size => {
+        setTimeout(() => download(`icon${size}`, size), size * 10);
+      });
+    }
+    
+    // Draw all icons
+    [16, 32, 48, 128].forEach(size => {
+      const canvas = document.getElementById(`icon${size}`);
+      drawIcon(canvas, size);
+    });
+  </script>
+</body>
+</html>

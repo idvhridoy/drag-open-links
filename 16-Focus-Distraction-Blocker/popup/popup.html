@@ -1,0 +1,56 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Focus Blocker</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--primary:#ef4444}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);width:300px}.popup{padding:16px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}h1{font-size:15px}.toggle{width:50px;height:28px;position:relative}.toggle input{opacity:0;width:0;height:0}.slider{position:absolute;inset:0;background:#333;border-radius:28px;cursor:pointer}.slider::before{content:"";position:absolute;width:22px;height:22px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}.toggle input:checked+.slider{background:var(--primary)}.toggle input:checked+.slider::before{transform:translateX(22px)}.status{text-align:center;padding:20px;background:var(--bg2);border-radius:12px;margin-bottom:16px}.status h2{font-size:20px;margin-bottom:4px}.sites{display:flex;flex-direction:column;gap:6px}.site{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg2);border-radius:8px;font-size:13px}.remove-btn{background:none;border:none;color:var(--primary);cursor:pointer;font-size:16px}.add-form{display:flex;gap:8px;margin-top:12px}.add-form input{flex:1;padding:10px;background:var(--bg2);border:1px solid #334155;border-radius:8px;color:var(--text)}.add-form button{padding:10px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer}</style></head>
+<body><div class="popup">
+<header><h1>🎯 Focus Blocker</h1><label class="toggle"><input type="checkbox" id="enableToggle" checked><span class="slider"></span></label></header>
+<div class="status"><h2 id="blockedCount">5</h2><p>Sites Blocked</p></div>
+<div class="sites" id="sitesList"></div>
+<div class="add-form"><input type="text" id="newSite" placeholder="example.com"><button id="addBtn">Add</button></div>
+</div>
+<script>
+let blockedSites = [];
+async function load() {
+  const state = await chrome.runtime.sendMessage({ type: 'GET_STATE' });
+  blockedSites = state.blockedSites || [];
+  document.getElementById('enableToggle').checked = state.isEnabled;
+  document.getElementById('blockedCount').textContent = blockedSites.length;
+  document.getElementById('sitesList').innerHTML = blockedSites.map(s => `<div class="site"><span>${s}</span><button class="remove-btn" data-site="${s}">×</button></div>`).join('');
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.onclick = async () => {
+      blockedSites = blockedSites.filter(s => s !== btn.dataset.site);
+      await chrome.runtime.sendMessage({ type: 'UPDATE_STATE', blockedSites });
+      load();
+    };
+  });
+}
+load();
+document.getElementById('enableToggle').onchange = async (e) => {
+  await chrome.runtime.sendMessage({ type: 'UPDATE_STATE', isEnabled: e.target.checked });
+};
+document.getElementById('addBtn').onclick = async () => {
+  const site = document.getElementById('newSite').value.trim();
+  if (site && !blockedSites.includes(site)) {
+    blockedSites.push(site);
+    await chrome.runtime.sendMessage({ type: 'UPDATE_STATE', blockedSites });
+    document.getElementById('newSite').value = '';
+    load();
+  }
+};
+</script>
+<!-- Support Section -->
+<section class="support-section">
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn"> Buy Me a Coffee</a>
+</section>
+<footer class="footer">
+<p>Made with  by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<span class="version">v1.0.0</span>
+</footer>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px}
+.coffee-btn{display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.coffee-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,176,52,.4)}
+.footer{text-align:center;padding-top:12px}
+.footer p{font-size:11px;color:#888;margin-bottom:4px}
+.footer a{color:#3b82f6;text-decoration:none}
+.footer .version{font-size:10px;color:#666}
+</style>
+</body></html>

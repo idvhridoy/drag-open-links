@@ -1,0 +1,152 @@
+/**
+ * Dark Mode Everywhere - Preset Theme Styles
+ * Additional theme customization options
+ */
+
+/* ============================================================================
+   Pure Dark Theme
+   ============================================================================ */
+   
+[data-dme-theme="dark-default"] {
+  --dme-bg-color: #1a1a1a !important;
+  --dme-text-color: #e8e8e8 !important;
+  --dme-link-color: #8ab4f8 !important;
+  --dme-accent-color: #bb86fc !important;
+  --dme-border-color: #3a3a3a !important;
+  --dme-hover-color: #2a2a2a !important;
+  --dme-input-bg: #242424 !important;
+}
+
+/* ============================================================================
+   Dark Blue Theme (GitHub-inspired)
+   ============================================================================ */
+   
+[data-dme-theme="dark-blue"] {
+  --dme-bg-color: #0d1117 !important;
+  --dme-text-color: #c9d1d9 !important;
+  --dme-link-color: #58a6ff !important;
+  --dme-accent-color: #79c0ff !important;
+  --dme-border-color: #30363d !important;
+  --dme-hover-color: #161b22 !important;
+  --dme-input-bg: #21262d !important;
+}
+
+/* ============================================================================
+   Dark Warm Theme
+   ============================================================================ */
+   
+[data-dme-theme="dark-warm"] {
+  --dme-bg-color: #1c1917 !important;
+  --dme-text-color: #e7e5e4 !important;
+  --dme-link-color: #fbbf24 !important;
+  --dme-accent-color: #f59e0b !important;
+  --dme-border-color: #44403c !important;
+  --dme-hover-color: #292524 !important;
+  --dme-input-bg: #1c1917 !important;
+}
+
+/* ============================================================================
+   AMOLED Black Theme (Battery Saver)
+   ============================================================================ */
+   
+[data-dme-theme="dark-amoled"] {
+  --dme-bg-color: #000000 !important;
+  --dme-text-color: #ffffff !important;
+  --dme-link-color: #00d4ff !important;
+  --dme-accent-color: #ff6b9d !important;
+  --dme-border-color: #222222 !important;
+  --dme-hover-color: #111111 !important;
+  --dme-input-bg: #0a0a0a !important;
+}
+
+/* ============================================================================
+   Dark Sepia Theme (Reading Mode)
+   ============================================================================ */
+   
+[data-dme-theme="dark-sepia"] {
+  --dme-bg-color: #1a1814 !important;
+  --dme-text-color: #d4c5a9 !important;
+  --dme-link-color: #c9a962 !important;
+  --dme-accent-color: #b89750 !important;
+  --dme-border-color: #3d3830 !important;
+  --dme-hover-color: #2a2620 !important;
+  --dme-input-bg: #242018 !important;
+}
+
+/* ============================================================================
+   High Contrast Theme (Accessibility)
+   ============================================================================ */
+   
+[data-dme-theme="high-contrast"] {
+  --dme-bg-color: #000000 !important;
+  --dme-text-color: #ffffff !important;
+  --dme-link-color: #ffff00 !important;
+  --dme-accent-color: #00ff00 !important;
+  --dme-border-color: #ffffff !important;
+  --dme-hover-color: #1a1a1a !important;
+  --dme-input-bg: #0a0a0a !important;
+}
+
+/* ============================================================================
+   Special Elements Handling
+   ============================================================================ */
+
+/* Preserve syntax highlighting */
+.dark-mode-everywhere [class*="hljs"],
+.dark-mode-everywhere [class*="prism"],
+.dark-mode-everywhere [class*="shiki"],
+.dark-mode-everywhere [class*="syntax-"],
+.dark-mode-everywhere [class*="highlight"] {
+  background-color: var(--dme-input-bg) !important;
+}
+
+/* Code elements */
+.dark-mode-everywhere code,
+.dark-mode-everywhere pre {
+  background-color: var(--dme-input-bg) !important;
+  border-color: var(--dme-border-color) !important;
+}
+
+/* GitHub-specific fixes */
+.dark-mode-everywhere .markdown-body {
+  background-color: var(--dme-bg-color) !important;
+  color: var(--dme-text-color) !important;
+}
+
+/* YouTube-specific fixes */
+.dark-mode-everywhere ytd-app {
+  background-color: var(--dme-bg-color) !important;
+}
+
+/* Twitter/X-specific fixes */
+.dark-mode-everywhere [data-testid="primaryColumn"] {
+  background-color: var(--dme-bg-color) !important;
+}
+
+/* Reddit-specific fixes */
+.dark-mode-everywhere .Post {
+  background-color: var(--dme-hover-color) !important;
+}
+
+/* Wikipedia-specific fixes */
+.dark-mode-everywhere #content,
+.dark-mode-everywhere #mw-content-text {
+  background-color: var(--dme-bg-color) !important;
+}
+
+/* Google-specific fixes */
+.dark-mode-everywhere .g,
+.dark-mode-everywhere .rc {
+  background-color: transparent !important;
+}
+
+/* Amazon-specific fixes */
+.dark-mode-everywhere #dp-container {
+  background-color: var(--dme-bg-color) !important;
+}
+
+/* Stack Overflow-specific fixes */
+.dark-mode-everywhere .question-summary,
+.dark-mode-everywhere .answer {
+  background-color: var(--dme-hover-color) !important;
+}

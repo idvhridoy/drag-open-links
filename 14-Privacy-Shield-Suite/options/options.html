@@ -1,0 +1,79 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Privacy Shield Settings</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--text2:#94a3b8;--primary:#10b981}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:40px;max-width:700px;margin:0 auto}h1{font-size:24px;margin-bottom:8px}p.subtitle{color:var(--text2);margin-bottom:32px}.card{background:var(--bg2);padding:24px;border-radius:16px;margin-bottom:24px}h2{font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:10px}.setting{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}.setting:last-child{border:none}.setting-info h3{font-size:14px;margin-bottom:4px}.setting-info p{font-size:12px;color:var(--text2)}.toggle{width:50px;height:28px;position:relative}.toggle input{opacity:0;width:0;height:0}.slider{position:absolute;inset:0;background:#333;border-radius:28px;cursor:pointer;transition:.3s}.slider::before{content:"";position:absolute;width:22px;height:22px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}.toggle input:checked+.slider{background:var(--primary)}.toggle input:checked+.slider::before{transform:translateX(22px)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}.stat{text-align:center;padding:20px;background:var(--bg2);border-radius:12px}.stat h3{font-size:28px;color:var(--primary);margin-bottom:4px}.stat p{font-size:12px;color:var(--text2)}.btn{padding:12px 24px;border:none;border-radius:8px;cursor:pointer;font-size:14px}.btn-primary{background:var(--primary);color:#fff}.btn-danger{background:#ef4444;color:#fff}.about{text-align:center;padding:32px;color:var(--text2)}.about a{color:var(--primary)}</style></head>
+<body>
+<h1>🛡️ Privacy Shield Suite</h1>
+<p class="subtitle">Advanced privacy protection for your browser</p>
+
+<div class="stats">
+<div class="stat"><h3 id="trackersBlocked">0</h3><p>Trackers Blocked</p></div>
+<div class="stat"><h3 id="fingerprintsBlocked">0</h3><p>Fingerprints Blocked</p></div>
+<div class="stat"><h3 id="sitesProtected">0</h3><p>Sites Protected</p></div>
+</div>
+
+<div class="card">
+<h2>🔒 Protection Settings</h2>
+<div class="setting"><div class="setting-info"><h3>Canvas Fingerprint Protection</h3><p>Randomize canvas fingerprint data</p></div><label class="toggle"><input type="checkbox" id="canvasProtection" checked><span class="slider"></span></label></div>
+<div class="setting"><div class="setting-info"><h3>WebGL Fingerprint Protection</h3><p>Spoof WebGL renderer information</p></div><label class="toggle"><input type="checkbox" id="webglProtection" checked><span class="slider"></span></label></div>
+<div class="setting"><div class="setting-info"><h3>Audio Fingerprint Protection</h3><p>Add noise to audio context</p></div><label class="toggle"><input type="checkbox" id="audioProtection" checked><span class="slider"></span></label></div>
+<div class="setting"><div class="setting-info"><h3>User Agent Spoofing</h3><p>Randomize browser identification</p></div><label class="toggle"><input type="checkbox" id="uaSpoofing"><span class="slider"></span></label></div>
+<div class="setting"><div class="setting-info"><h3>Timezone Randomization</h3><p>Hide your real timezone</p></div><label class="toggle"><input type="checkbox" id="timezoneRandom"><span class="slider"></span></label></div>
+</div>
+
+<div class="card">
+<h2>🚫 Tracker Blocking</h2>
+<div class="setting"><div class="setting-info"><h3>Block Google Analytics</h3><p>Prevent Google tracking scripts</p></div><label class="toggle"><input type="checkbox" id="blockGA" checked><span class="slider"></span></label></div>
+<div class="setting"><div class="setting-info"><h3>Block Facebook Pixel</h3><p>Prevent Facebook tracking</p></div><label class="toggle"><input type="checkbox" id="blockFB" checked><span class="slider"></span></label></div>
+<div class="setting"><div class="setting-info"><h3>Block Advertising Scripts</h3><p>Remove ad network trackers</p></div><label class="toggle"><input type="checkbox" id="blockAds" checked><span class="slider"></span></label></div>
+</div>
+
+<div class="card" style="text-align:center">
+<button class="btn btn-danger" id="resetStats">Reset Statistics</button>
+</div>
+
+<div class="about">
+<h3>Privacy Shield Suite v1.0.0</h3>
+<p style="margin:12px 0">Protect your privacy while browsing</p>
+<p><a href="https://github.com/idvhridoy">GitHub</a> | <a href="https://buymeacoffee.com/hridoythebest">Support</a></p>
+<p style="margin-top:12px">© 2024 Md Hridoy Hossain</p>
+</div>
+
+<script>
+async function loadSettings() {
+  const { settings = {}, stats = {} } = await chrome.storage.local.get(['settings', 'stats']);
+  document.getElementById('canvasProtection').checked = settings.canvasProtection !== false;
+  document.getElementById('webglProtection').checked = settings.webglProtection !== false;
+  document.getElementById('audioProtection').checked = settings.audioProtection !== false;
+  document.getElementById('uaSpoofing').checked = settings.uaSpoofing === true;
+  document.getElementById('timezoneRandom').checked = settings.timezoneRandom === true;
+  document.getElementById('blockGA').checked = settings.blockGA !== false;
+  document.getElementById('blockFB').checked = settings.blockFB !== false;
+  document.getElementById('blockAds').checked = settings.blockAds !== false;
+  
+  document.getElementById('trackersBlocked').textContent = stats.trackersBlocked || 0;
+  document.getElementById('fingerprintsBlocked').textContent = stats.fingerprintsBlocked || 0;
+  document.getElementById('sitesProtected').textContent = stats.sitesProtected || 0;
+}
+
+async function saveSettings() {
+  const settings = {
+    canvasProtection: document.getElementById('canvasProtection').checked,
+    webglProtection: document.getElementById('webglProtection').checked,
+    audioProtection: document.getElementById('audioProtection').checked,
+    uaSpoofing: document.getElementById('uaSpoofing').checked,
+    timezoneRandom: document.getElementById('timezoneRandom').checked,
+    blockGA: document.getElementById('blockGA').checked,
+    blockFB: document.getElementById('blockFB').checked,
+    blockAds: document.getElementById('blockAds').checked
+  };
+  await chrome.storage.local.set({ settings });
+}
+
+document.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener('change', saveSettings));
+document.getElementById('resetStats').addEventListener('click', async () => {
+  await chrome.storage.local.set({ stats: { trackersBlocked: 0, fingerprintsBlocked: 0, sitesProtected: 0 } });
+  loadSettings();
+});
+
+loadSettings();
+</script>
+</body></html>

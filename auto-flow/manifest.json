@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Auto Flow - Automation for VEO AI",
+  "version": "1.0.0",
+  "description": "Automate video generation workflows for Google VEO AI with batch processing and queue management.",
+  "author": "Md Hridoy Hossain",
+  "homepage_url": "https://github.com/idvhridoy",
+  "permissions": ["activeTab", "storage", "downloads", "scripting", "tabs", "alarms", "notifications"],
+  "host_permissions": ["https://labs.google/*", "https://veo.google.com/*"],
+  "background": { "service_worker": "js/background.js" },
+  "content_scripts": [{
+    "matches": ["https://labs.google/*", "https://veo.google.com/*"],
+    "js": ["js/content.js"],
+    "css": ["css/content.css"],
+    "run_at": "document_idle"
+  }],
+  "action": { "default_popup": "popup/popup.html", "default_icon": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }},
+  "icons": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "commands": { "_execute_action": { "suggested_key": { "default": "Ctrl+Shift+F" } }}
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Email Finder Settings</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--text2:#94a3b8;--primary:#ec4899}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:40px;max-width:800px;margin:0 auto}h1{margin-bottom:32px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px}.stat{text-align:center;padding:24px;background:var(--bg2);border-radius:12px}.stat h2{font-size:32px;color:var(--primary);margin-bottom:4px}.stat p{font-size:12px;color:var(--text2)}.card{background:var(--bg2);padding:24px;border-radius:12px;margin-bottom:24px}.setting{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.1)}.setting:last-child{border:none}h3{font-size:14px;margin-bottom:4px}p{font-size:12px;color:var(--text2)}.toggle{width:48px;height:26px;position:relative}.toggle input{opacity:0}.slider{position:absolute;inset:0;background:#333;border-radius:26px;cursor:pointer}.slider::before{content:"";position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}.toggle input:checked+.slider{background:var(--primary)}.toggle input:checked+.slider::before{transform:translateX(22px)}.emails-list{max-height:300px;overflow-y:auto}.email-item{display:flex;justify-content:space-between;padding:12px;background:var(--bg);border-radius:8px;margin-bottom:8px;font-family:monospace;font-size:13px}.btn{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:12px}.btn-primary{background:var(--primary);color:#fff}.btn-secondary{background:#333;color:var(--text)}.about{text-align:center;padding:32px}.about a{color:var(--primary)}</style></head>
+<body><h1>📧 Email Finder Settings</h1>
+<div class="stats">
+<div class="stat"><h2 id="totalFound">0</h2><p>Emails Found</p></div>
+<div class="stat"><h2 id="pagesScanned">0</h2><p>Pages Scanned</p></div>
+<div class="stat"><h2 id="uniqueEmails">0</h2><p>Unique Emails</p></div>
+</div>
+<div class="card">
+<div class="setting"><div><h3>Auto-scan pages</h3><p>Automatically find emails on page load</p></div><label class="toggle"><input type="checkbox" id="autoScan"><span class="slider"></span></label></div>
+<div class="setting"><div><h3>Show badge count</h3><p>Display email count on extension icon</p></div><label class="toggle"><input type="checkbox" id="showBadge" checked><span class="slider"></span></label></div>
+<div class="setting"><div><h3>Filter common patterns</h3><p>Exclude example@, test@, noreply@</p></div><label class="toggle"><input type="checkbox" id="filterCommon" checked><span class="slider"></span></label></div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<h2>Collected Emails</h2>
+<div><button class="btn btn-primary" id="exportBtn">Export CSV</button><button class="btn btn-secondary" id="clearBtn" style="margin-left:8px">Clear All</button></div>
+</div>
+<div class="emails-list" id="emailsList"></div>
+</div>
+<div class="card about"><h2>Email Finder Verifier v1.0.0</h2><p style="margin:16px 0">Find and extract emails from any page</p><p><a href="https://github.com/idvhridoy">GitHub</a> | <a href="https://buymeacoffee.com/hridoythebest">Support</a></p><p style="margin-top:16px">© 2024 Md Hridoy Hossain</p></div>
+<script>
+async function load() {
+  const { emailHistory = [], emailStats = {} } = await chrome.storage.local.get(['emailHistory', 'emailStats']);
+  const unique = [...new Set(emailHistory)];
+  document.getElementById('totalFound').textContent = emailHistory.length;
+  document.getElementById('pagesScanned').textContent = emailStats.pagesScanned || 0;
+  document.getElementById('uniqueEmails').textContent = unique.length;
+  
+  document.getElementById('emailsList').innerHTML = unique.length ? unique.slice(0, 50).map(e => `
+    <div class="email-item"><span>${e}</span><button class="btn btn-secondary" onclick="navigator.clipboard.writeText('${e}');this.textContent='✓';setTimeout(()=>this.textContent='Copy',1000)">Copy</button></div>
+  `).join('') : '<p style="text-align:center;color:var(--text2);padding:40px">No emails collected yet</p>';
+}
+document.getElementById('exportBtn').onclick = async () => {
+  const { emailHistory = [] } = await chrome.storage.local.get('emailHistory');
+  const csv = 'Email\n' + [...new Set(emailHistory)].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'emails.csv'; a.click();
+};
+document.getElementById('clearBtn').onclick = async () => {
+  if (confirm('Clear all collected emails?')) { await chrome.storage.local.set({ emailHistory: [], emailStats: {} }); load(); }
+};
+load();
+</script></body></html>

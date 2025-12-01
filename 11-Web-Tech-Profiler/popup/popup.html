@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Web Tech Profiler</title>
+<style>
+:root{--bg:#0f0f1a;--bg2:#1a1a2e;--text:#fff;--text2:#94a3b8;--primary:#8b5cf6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);width:320px}
+.popup{padding:16px}
+header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+h1{font-size:15px}
+.tech-list{display:flex;flex-direction:column;gap:8px;max-height:350px;overflow-y:auto}
+.tech-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg2);border-radius:10px}
+.tech-icon{font-size:24px}
+.tech-info{flex:1}
+.tech-name{font-size:14px;font-weight:500}
+.tech-category{font-size:11px;color:var(--text2)}
+.category-badge{padding:3px 8px;background:rgba(139,92,246,.2);color:var(--primary);border-radius:4px;font-size:10px;font-weight:500}
+.empty{text-align:center;padding:40px;color:var(--text2)}
+.empty span{font-size:40px;display:block;margin-bottom:12px}
+</style></head>
+<body><div class="popup">
+<header><span style="font-size:20px">🔍</span><h1>Web Tech Profiler</h1></header>
+<div class="tech-list" id="techList"><div class="empty"><span>🔍</span>Analyzing page...</div></div>
+
+<section class="support-section">
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn">☕ Buy Me a Coffee</a>
+</section>
+<footer class="footer">
+<p>Made with ❤️ by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<span class="version">v1.0.0 • Free & Open Source</span>
+</footer>
+</div>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px}
+.coffee-btn{display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600}
+.coffee-btn:hover{transform:translateY(-2px)}
+.footer{text-align:center;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)}
+.footer p{font-size:11px;color:var(--text2);margin-bottom:4px}
+.footer a{color:var(--primary);text-decoration:none}
+.footer .version{font-size:10px;color:#555}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const list = document.getElementById('techList');
+  const response = await chrome.runtime.sendMessage({ type: 'GET_TECH' });
+  const techs = response.technologies || [];
+  
+  if (techs.length === 0) {
+    list.innerHTML = '<div class="empty"><span>🤷</span>No technologies detected</div>';
+    return;
+  }
+  
+  list.innerHTML = techs.map(t => `
+    <div class="tech-item">
+      <span class="tech-icon">${t.icon}</span>
+      <div class="tech-info">
+        <div class="tech-name">${t.name}</div>
+        <div class="tech-category">${t.category}</div>
+      </div>
+      <span class="category-badge">${t.category}</span>
+    </div>
+  `).join('');
+});
+</script></body></html>

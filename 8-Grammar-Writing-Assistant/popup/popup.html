@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Grammar Assistant</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--text2:#94a3b8;--primary:#22c55e}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);width:340px}.popup{padding:16px}header{text-align:center;margin-bottom:16px}h1{font-size:16px;margin-bottom:4px}p{font-size:12px;color:var(--text2)}textarea{width:100%;height:150px;padding:12px;background:var(--bg2);border:1px solid #334155;border-radius:10px;color:var(--text);font-size:14px;resize:none;margin-bottom:12px}textarea:focus{outline:none;border-color:var(--primary)}.btn{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:8px}.btn.secondary{background:var(--bg2)}.results{background:var(--bg2);padding:14px;border-radius:10px;margin-top:12px}.score{font-size:28px;font-weight:700;color:var(--primary)}.score-label{font-size:12px;color:var(--text2)}</style></head>
+<body><div class="popup">
+<header><h1>✍️ Grammar Assistant</h1><p>Check and improve your writing</p></header>
+<textarea id="textInput" placeholder="Type or paste your text here..."></textarea>
+<button class="btn" id="checkBtn">Check Grammar</button>
+<button class="btn secondary" id="improveBtn">Improve Writing</button>
+<div class="results" id="results" style="display:none">
+<div class="score" id="score">100</div>
+<div class="score-label">Writing Score</div>
+<div id="issuesList" style="margin-top:12px;font-size:13px"></div>
+</div>
+</div>
+<script>
+const textInput = document.getElementById('textInput');
+const results = document.getElementById('results');
+const score = document.getElementById('score');
+const issuesList = document.getElementById('issuesList');
+
+document.getElementById('checkBtn').addEventListener('click', async () => {
+  const text = textInput.value.trim();
+  if (!text) return;
+  const response = await chrome.runtime.sendMessage({ type: 'CHECK_GRAMMAR', text });
+  if (response.success) {
+    results.style.display = 'block';
+    score.textContent = response.score;
+    score.style.color = response.score >= 80 ? '#22c55e' : response.score >= 50 ? '#f59e0b' : '#ef4444';
+    issuesList.innerHTML = response.issues.length ? response.issues.map(i => `<div style="padding:8px 0;border-bottom:1px solid #334155"><span style="background:#3b82f6;padding:2px 6px;border-radius:4px;font-size:10px;margin-right:8px">${i.type}</span>${i.original} → ${i.suggestion}</div>`).join('') : '<div style="color:#22c55e">✓ No issues found!</div>';
+  }
+});
+
+document.getElementById('improveBtn').addEventListener('click', async () => {
+  const text = textInput.value.trim();
+  if (!text) return;
+  const response = await chrome.runtime.sendMessage({ type: 'IMPROVE_WRITING', text });
+  if (response.success) textInput.value = response.improved;
+});
+</script>
+<!-- Support Section -->
+<section class="support-section">
+<a href="https://buymeacoffee.com/hridoythebest" target="_blank" class="coffee-btn"> Buy Me a Coffee</a>
+</section>
+<footer class="footer">
+<p>Made with  by <a href="https://github.com/idvhridoy" target="_blank">Md Hridoy Hossain</a></p>
+<span class="version">v1.0.0</span>
+</footer>
+<style>
+.support-section{text-align:center;padding:16px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px}
+.coffee-btn{display:inline-block;padding:10px 20px;background:linear-gradient(135deg,#FFDD00,#FBB034);color:#000;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;transition:all .2s}
+.coffee-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,176,52,.4)}
+.footer{text-align:center;padding-top:12px}
+.footer p{font-size:11px;color:#888;margin-bottom:4px}
+.footer a{color:#3b82f6;text-decoration:none}
+.footer .version{font-size:10px;color:#666}
+</style>
+</body></html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Form AutoFiller Settings</title>
+<style>:root{--bg:#0f172a;--bg2:#1e293b;--text:#fff;--text2:#94a3b8;--primary:#6366f1}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:40px;max-width:600px;margin:0 auto}h1{margin-bottom:32px}.card{background:var(--bg2);padding:24px;border-radius:12px;margin-bottom:24px}h2{font-size:16px;margin-bottom:16px}.form-group{margin-bottom:16px}.form-group label{display:block;font-size:13px;color:var(--text2);margin-bottom:6px}.form-group input{width:100%;padding:10px 12px;background:var(--bg);border:1px solid #334155;border-radius:8px;color:var(--text)}.form-group input:focus{outline:none;border-color:var(--primary)}.btn{padding:12px 24px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer}.profiles-list{margin-top:24px}.profile-card{display:flex;justify-content:space-between;align-items:center;padding:16px;background:var(--bg);border-radius:10px;margin-bottom:8px}.profile-card h3{font-size:14px}.profile-card button{padding:6px 12px;background:#ef4444;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px}.about{text-align:center;padding:32px}.about a{color:var(--primary)}</style></head>
+<body><h1>✨ Form AutoFiller Settings</h1>
+<div class="card"><h2>Create New Profile</h2>
+<div class="form-group"><label>Profile Name</label><input type="text" id="profileName" placeholder="e.g., Personal, Work"></div>
+<div class="form-group"><label>Full Name</label><input type="text" id="name" placeholder="John Doe"></div>
+<div class="form-group"><label>Email</label><input type="email" id="email" placeholder="john@example.com"></div>
+<div class="form-group"><label>Phone</label><input type="tel" id="phone" placeholder="+1 234 567 8900"></div>
+<div class="form-group"><label>Address</label><input type="text" id="address" placeholder="123 Main St"></div>
+<div class="form-group"><label>City</label><input type="text" id="city" placeholder="New York"></div>
+<div class="form-group"><label>Country</label><input type="text" id="country" placeholder="United States"></div>
+<button class="btn" id="saveBtn">Save Profile</button>
+<div class="profiles-list" id="profilesList"></div></div>
+<div class="card about"><h2>Smart Form AutoFiller v1.0.0</h2><p style="margin:16px 0;color:var(--text2)">Fill forms instantly with saved profiles</p><p><a href="https://github.com/idvhridoy">GitHub</a> | <a href="https://buymeacoffee.com/hridoythebest">Support</a></p><p style="margin-top:16px;color:var(--text2)">© 2024 Md Hridoy Hossain</p></div>
+<script>
+async function loadProfiles() {
+  const { profiles = [] } = await chrome.storage.local.get('profiles');
+  document.getElementById('profilesList').innerHTML = profiles.map(p => `
+    <div class="profile-card"><h3>${p.name}</h3><button data-id="${p.id}">Delete</button></div>
+  `).join('') || '<p style="color:var(--text2)">No profiles saved</p>';
+  document.querySelectorAll('.profile-card button').forEach(btn => {
+    btn.onclick = async () => {
+      const { profiles } = await chrome.storage.local.get('profiles');
+      await chrome.storage.local.set({ profiles: profiles.filter(p => p.id !== btn.dataset.id) });
+      loadProfiles();
+    };
+  });
+}
+loadProfiles();
+document.getElementById('saveBtn').onclick = async () => {
+  const { profiles = [] } = await chrome.storage.local.get('profiles');
+  const profile = {
+    id: Date.now().toString(),
+    name: document.getElementById('profileName').value || 'Unnamed',
+    fullName: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    address: document.getElementById('address').value,
+    city: document.getElementById('city').value,
+    country: document.getElementById('country').value
+  };
+  await chrome.storage.local.set({ profiles: [...profiles, profile] });
+  loadProfiles();
+  ['profileName','name','email','phone','address','city','country'].forEach(id => document.getElementById(id).value = '');
+};
+</script></body></html>
