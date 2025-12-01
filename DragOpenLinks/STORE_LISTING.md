@@ -78,7 +78,7 @@ This extension is completely free with no ads, no premium features, and no hidde
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Made with ❤️ by Hridoy Ahmed
+Made with ❤️ by Md Hridoy Hossain
 GitHub: https://github.com/idvhridoy/drag-open-links
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

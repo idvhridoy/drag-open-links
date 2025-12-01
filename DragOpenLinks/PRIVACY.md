@@ -95,4 +95,4 @@ If you have any questions about this privacy policy, please:
 
 ---
 
-*This Extension is made with ❤️ by [Hridoy Ahmed](https://github.com/idvhridoy)*
+*This Extension is made with ❤️ by [Md Hridoy Hossain](https://github.com/idvhridoy)*
